@@ -1,5 +1,5 @@
 # SemanticSecurity
-Leveraging Web User Analysis through Ontologies to Intelligently Generate Reliable Security Questions
+## Leveraging Web User Analysis through Ontologies to Intelligently Generate Reliable Security Questions
 
 Authors:
 - Omar Ochoa
