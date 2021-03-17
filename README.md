@@ -9,7 +9,7 @@ Authors:
 - [Timothy Elvira]
 - [Tayler King](https://www.github.com/PikaChuBolt)
 - [Juan Ortiz Couder](https://www.github.com/ortizcoj)
-- [Mark Frees]
+- [Mark Frees](markwfrees@gmail.com)
 
 ***
 
