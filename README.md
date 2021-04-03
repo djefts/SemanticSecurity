@@ -14,9 +14,9 @@ Authors:
 ***
 
 # Structure:
-- Research Paper
+- **Research Paper**
   - All of the TeX files used for the papers published by this project
-- Sources
-  - Downloaded copies of all of the sources
+  - **Sources**
+    - Downloaded copies of all the sources
 - `.gitignore`
 - `README.md`
