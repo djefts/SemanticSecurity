@@ -3,12 +3,12 @@ This file contains all the methods and structures necessary to scrape informatio
 """
 
 from selenium import webdriver
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 import os
-import wget
 from time import sleep
 
 
@@ -34,7 +34,7 @@ def get_methods(mystery_object, spacing = 40):
     process_func = (lambda s: ' '.join(s.split())) or (lambda s: s)
     for method in method_list:
         try:
-            print(str(method.ljust(spacing)) + ' ' + process_func(str(getattr(mystery_object, method).__doc__)))
+            print(str(method.ljust(spacing)) + ' ' + process_func(str(getattr(mystery_object, method).__doc__))[:200])
         except:
             print(method.ljust(spacing) + '\t' + ' getattr() failed')
 
@@ -56,13 +56,28 @@ def get_variables(mystery_object):
 
 
 def get_user_information(driver):
-    lives_in = ''
-    location_from = ''
-    hobbies = []
-    friends = []
-    information = driver.find_elements_by_tag_name('span')
+    span_tags = driver.find_elements_by_tag_name('span')
     sleep(1)
-    return information
+    
+    span_texts = []
+    for span in span_tags:
+        while True:
+            try:
+                # grab all the text and put it into a list for easy comprehension
+                text = span.text
+            except StaleElementReferenceException:
+                # element can apparently disappear for as-of-yet unknown reasons
+                text = ''
+            except NoSuchElementException:
+                # element is on a part of the page that hasn't been loaded yet
+                # TODO this may cause infinite-looping behaviours
+                scroll_down_v2(driver)
+                continue
+            break
+        if text is not None and text != '':
+            print("Span:", "{} - '{}'".format(span, text))
+            span_texts.append(span.text)
+    return span_texts
 
 
 def get_driver(email = 'TimElvResearch@gmail.com', password = 'keckW2323#', username = 'John Keck',
@@ -118,6 +133,7 @@ def scroll_down(driver):
 
 
 def scroll_down_v2(driver, scroll_pause_time = 0.5):
+    """Courtesy of https://stackoverflow.com/a/27760083/8705841"""
     # Get scroll height
     last_height = driver.execute_script("return document.body.scrollHeight")
     
