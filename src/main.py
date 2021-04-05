@@ -20,7 +20,7 @@ class User:
         self.name = str(name)
         self.pronunciation = ''
         self.lives_in = ''
-        self.location_from = ''
+        self.hometown = ''
         self.birthday = None
         self.hobbies = []
         self.friends = []
@@ -31,7 +31,7 @@ class User:
                 "and has [{}] hobbies and [{}] friends. "
                 "They were born on {}."
                 ).format(self.name, self.pronunciation, self.lives_in,
-                         self.location_from,
+                         self.hometown,
                          len(self.hobbies), len(self.friends),
                          self.birthday.strftime("%x"))
 
@@ -53,7 +53,7 @@ if __name__ == '__main__':
             if "Lives in" in span_text:
                 john.lives_in = span_text.split("Lives in ")[1]
             if "From" in span_text:
-                john.location_from = span_text.split("From ")[1]
+                john.hometown = span_text.split("From ")[1]
             if "Pronounces name" in span_text:
                 john.pronunciation = span_text.split("Pronounces name ")[1]
             if "Born on" in span_text:
