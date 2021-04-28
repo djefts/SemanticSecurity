@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 import os
 from time import sleep
+from dateutil import parser
 
 
 def get_name(mystery_object):
@@ -77,7 +78,23 @@ def get_user_information(driver):
         if text is not None and text != '':
             print("Span:", "{} - '{}'".format(span, text))
             span_texts.append(span.text)
-    return span_texts
+
+    user_info = {}
+    for span in span_texts:
+        print(span.replace('\n', ' '))
+        if "Lives in " in span:
+            user_info['lives_in'] = span.split("Lives in ")[1]
+        if "From " in span:
+            user_info['hometown'] = span.split("From ")[1]
+        if "Pronounces name " in span:
+            user_info['pronunciation'] = span.split("Pronounces name ")[1]
+        if "Born on " in span:
+            user_info['birthday'] = parser.parse(span.split("Born on ")[1])
+        # TODO hobbies
+        user_info['hobbies'] = []
+        # TODO friends
+        user_info['friends'] = []
+    return user_info
 
 
 def get_driver(email = 'TimElvResearch@gmail.com', password = 'keckW2323#', username = 'John Keck',
@@ -126,6 +143,11 @@ def get_driver(email = 'TimElvResearch@gmail.com', password = 'keckW2323#', user
 
 def get_element_children(element):
     element.find_elements_by_xpath(".//*")
+    
+    
+def get_button_elements(driver, css_selector):
+    buttons = driver.find_elements_by_css_selector(css_selector)
+    print(buttons)
 
 
 def scroll_down(driver):
