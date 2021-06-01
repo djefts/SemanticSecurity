@@ -1,66 +1,114 @@
-"""
-Running Experiment on Facebook Account John Keck
+#!/usr/bin/env python
+# coding: utf-8
 
-Username: TimElvResearch@gmail.com
-Password: keckW2323#
-"""
-from fb_scraper_api import *
-from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
-from time import sleep
-import datetime
-
-john_permalink = "https://www.facebook.com/john.keck.125"
-john_username = 'john.keck.125'
-john_name = "John Keck"
+# In[1]:
 
 
-class User:
-    def __init__(self, name):
-        self.name = str(name)
-        self.pronunciation = ''
-        self.lives_in = ''
-        self.hometown = ''
-        self.birthday = None
-        self.hobbies = []
-        self.friends = []
+#Running Experiment on Facebook Account John Keck
+#
+#Username: TimElvResearch@gmail.com
+#Password: keckW2323#
+#
+#
+#Testing facebook-scraper from pypi
+#03262021
+####
+import rdflib
+from rdflib import URIRef, Literal, BNode
+from rdflib import Graph
+from rdflib import Namespace
+from rdflib.namespace import DCTERMS, FOAF, SKOS, XSD, PROV, PROF, RDF
+
+import import_ipynb
+
+import pandas as pd
+import Dissector
+import EntitiesToRDF
+
+def mung(post):
+	listMung = (post['data'])
+	dictMung = listMung[0]
+	sent = dictMung["post"]
+	return sent
+
+def cleanDataframe(dataframe):
+	postsDf = dataframe.drop(columns = ['title'])
+	timestampsDf = dataframe['timestamp'].copy()
+	postsDf = dataframe.drop(columns = ['timestamp'])
+	return postsDf
+
+def extractPartsOfSpeech(sent, posList):
+	posSent = Dissector.posExtraction(sent)
+	posList.append(posSent)
+	return posSent
+
+def extractEntities(sent, entList):
+	entSent = Dissector.entityExtraction(sent)
+	entList.append(entSent)
+
+def printAnalysisToConsole(posList, entList):
+	print("Parts of Speech:")
+	for list in posList:
+		print(list)
+	print('\n\n\n')
+
+	print("Entities:")
+	for list in entList:
+		if list:
+			print(list)
+		if not list:
+			entList.remove(list)
+	print('\n')
+
+
+if __name__ == "__main__":
+
+	postsDf = pd.read_json(r'C:/ERAU Juancho/Spring 2021/Omar/your_posts_1.json')
+
+	##move to a method
+	##postsDf.info()
+	##print(postsDf)
+	##print(postsDf['data'])
+
+	##print(postsDf)
+	##print(timestampsDf)
+	postsDf = cleanDataframe(postsDf)
+
+	posList = []
+	entList = []
     
-    def set_information(self, information):
-        self.pronunciation = information['pronunciation']
-        self.lives_in = information['lives_in']
-        self.hometown = information['hometown']
-        self.birthday = information['birthday']
-        self.hobbies = information['hobbies']
-        self.friends = information['friends']
-    
-    def __str__(self):
-        return ("{} ({}) is from '{}', "
-                "currently lives in '{}', "
-                "and has [{}] hobbies and [{}] friends. "
-                "They were born on {}."
-                ).format(self.name, self.pronunciation, self.lives_in,
-                         self.hometown,
-                         len(self.hobbies), len(self.friends),
-                         self.birthday.strftime("%x"))
+	for index, post in postsDf.iterrows():
+		sentence = mung(post)
+		pos_tag = extractPartsOfSpeech(sentence,posList)
+		extractEntities(pos_tag, entList)
+
+		#subObjList = extractSubsObjects(sentence)
+		#relationList = extractRelations(sentence)
+
+	#SocialRDF.generateTriples(subObjList, relationList)
+	#SocialRDF.additionalTriples(subObjList, entList)
+
+	printAnalysisToConsole(posList, entList)
 
 
-if __name__ == '__main__':
-    try:
-        firefox, wait = get_driver()
-        scroll_down_v2(firefox, 2.0)  # default delay of 0.5 rarely works- extended to support variable environments
-        
-        # get_methods(user_info[0])
-        # get_variables(user_info[0])
-        
-        john = User(john_name)
-        user_info = get_user_information(firefox)
-        
-        get_button_elements(firefox, "input[role='button']")
-        
-        john.set_information(user_info)
-        
-        print("\n\n" + str(john))
-        
-    finally:
-        # post-run cleanup
-        sleep(5)
-        firefox.quit()
+else:
+	print('you cant import a main, tim')
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
