@@ -21,45 +21,64 @@ class User:
         self.pronunciation = ''
         self.lives_in = ''
         self.hometown = ''
-        self.birthday = None
         self.hobbies = []
         self.friends = []
+        self.degrees = []
+        self.schools = []
     
     def set_information(self, information):
         self.pronunciation = information['pronunciation']
         self.lives_in = information['lives_in']
         self.hometown = information['hometown']
-        self.birthday = information['birthday']
         self.hobbies = information['hobbies']
         self.friends = information['friends']
     
     def __str__(self):
-        return ("{} ({}) is from '{}', "
-                "currently lives in '{}', "
-                "and has [{}] hobbies and [{}] friends. "
-                "They were born on {}."
-                ).format(self.name, self.pronunciation, self.lives_in,
-                         self.hometown,
-                         len(self.hobbies), len(self.friends),
-                         self.birthday.strftime("%x"))
+        string = ("{} ({}) is from '{}', "
+                  "currently lives in '{}', "
+                  "and has [{}] hobbies and [{}] friends. "
+                  ).format(self.name, self.pronunciation, self.hometown,
+                           self.lives_in,
+                           len(self.hobbies), len(self.friends))
+        if len(self.degrees) > 1:
+            string += "They have degrees in {} from {}".format(self.degrees, self.schools)
+        elif len(self.degrees) > 0:
+            string += "They have a degree in {} from {}.".format(self.degrees, self.schools)
+        
+        return string
 
 
 if __name__ == '__main__':
     try:
         firefox, wait = get_driver()
-        facebook_login(firefox, wait)
         
-        # get_methods(user_info[0])
-        # get_variables(user_info[0])
+        # email = 'TimElvResearch@gmail.com'
+        # password = 'keckW2323#'
+        # name = 'John Keck'
+        # username = 'john.keck.125'
+        # permalink = 'https://www.facebook.com/john.keck.125'
+        email = 'dvdjefts27@gmail.com'
+        password = 'i love maria 2'
+        name = 'David Jefts'
+        username = 'david.jefts'
+        permalink = 'https://www.facebook.com/david.jefts'
+        
+        friends_permalink = permalink + '/friends'
+        
+        facebook_login(firefox, wait, email, password, name, username, permalink)
         
         print("Cleared popup:", check_clear_popups(firefox, wait))
         
         # collect basic user information from page
-        john = User(john_name)
-        user_info = get_user_information(firefox, john_permalink, john_friends_link)
-        john.set_information(user_info)
+        user = User(name)
+        user_info = get_user_information(firefox, permalink, friends_permalink)
+        user.set_information(user_info)
         
-        print("\n\n" + str(john))
+        # collect facebook posts text
+        posts = get_posts(firefox, permalink)
+        print('\n'.join(posts))
+        
+        print("\n\n" + str(user))
     
     finally:
         # post-run cleanup

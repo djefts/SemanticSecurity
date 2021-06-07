@@ -59,32 +59,22 @@ def get_variables(mystery_object):
 
 
 def get_user_information(driver, user_link, user_friends_link):
-    # driver.get(user_link)
-    # scroll_down_v2(driver, 4)
     span_tags = driver.find_elements_by_tag_name('span')
     sleep(1)
     
     span_texts = []
     for span in span_tags:
-        # make sure every span on the page has been grabbed
-        while True:
-            try:
-                # grab all the text and put it into a list for easy comprehension
-                text = span.text
-            except StaleElementReferenceException:
-                # element can apparently disappear for as-of-yet unknown reasons
-                text = ''
-            except NoSuchElementException:
-                # element is on a part of the page that hasn't been loaded yet
-                # TODO this may cause infinite-looping behaviours
-                scroll_down(driver)
-                continue
-            break
+        try:
+            # grab all the text and put it into a list for easy comprehension
+            text = span.text
+        except StaleElementReferenceException:
+            # element can apparently disappear for as-of-yet unknown reasons
+            text = ''
         if text is not None and text != '':
             # print("Span:", "{} - '{}'".format(span, text))
             span_texts.append(span.text.replace('\n', ' '))
     
-    user_info = {}
+    user_info = {'degrees': [], 'schools': []}
     for span in span_texts:
         # print(span)
         if "Lives in " in span:
@@ -93,13 +83,12 @@ def get_user_information(driver, user_link, user_friends_link):
             user_info['hometown'] = span.split("From ")[1]
         if "Pronounces name " in span:
             user_info['pronunciation'] = span.split("Pronounces name ")[1]
-        if "Born on " in span:
-            user_info['birthday'] = parser.parse(span.split("Born on ")[1])
-            # need to make this fail wayyyyy faster (in the case of failure)
-            if user_info['birthday'] is None:
-                raise KeyError
-    
-    print("Collected basic information.")
+        if "Studies " in span:
+            user_info['degrees'].append(span.split("Studies ")[1].split(" at")[0])
+            user_info['schools'].append(span.split(" at ")[1])
+        if "Studied " in span:
+            user_info['degrees'].append(span.split("Studied ")[1].split(" at")[0])
+            user_info['schools'].append(span.split(" at ")[1])
     
     # Get hobbies
     hobbies = get_hobbies(driver)
@@ -111,6 +100,7 @@ def get_user_information(driver, user_link, user_friends_link):
     print("\n\nFRIENDS:", friends)
     user_info['friends'] = friends
     
+    print("Collected basic information.")
     return user_info
 
 
@@ -124,12 +114,14 @@ def get_friends(driver, friends_link):
     """
     sleep(4)
     driver.get(friends_link)
+    scroll_down(driver, 5)
     # print("\n\nFriends:")
     spans = search_css_elements(driver, """span[dir="auto"]""")
     # print_elements(spans)
     
     # the text elements that are not names
-    invalid_names = ['More', 'Posts', 'About', 'Photos', 'Story Archive', 'Videos', 'All Friends', 'Following']
+    invalid_names = ['', 'About', 'All Friends', 'Birthdays', 'College', 'Current City', 'Following', 'High School',
+                     'More', 'Photos', 'Posts', 'Story Archive', 'Videos', 'Work']
     friends = []
     for span in spans:
         try:
@@ -144,10 +136,17 @@ def get_friends(driver, friends_link):
 
 
 def get_hobbies(driver):
-    # find the popup button, scroll it into view, then click on it
-    hobbies_button = search_css_elements(driver, """div[aria-pressed]""")[0]
-    driver.execute_script("window.scrollTo(0, {});".format(hobbies_button.location['y']))
-    hobbies_button.click()
+    scroll_page_down(driver)
+    scroll_page_up(driver)
+    try:
+        # if there are more than ~7 hobbies then there is a "See All" button
+        # find the popup button, scroll it into view, then click on it
+        hobbies_button = search_css_elements(driver, """div[aria-pressed]""")[0]
+        driver.execute_script("window.scrollTo(0, {});".format(hobbies_button.location['y']))
+        hobbies_button.click()
+    except IndexError:
+        # no "See All" Hobbies button
+        print("Less than 7 hobbies.")
     
     # Hobbies appear in the format:
     # element.get_attribute("aria-label") :: 'Reading'
@@ -202,18 +201,17 @@ def get_driver():
     return driver, wait
 
 
-def facebook_login(driver, wait, email = 'TimElvResearch@gmail.com', password = 'keckW2323#', username = 'John Keck',
-                   permalink = 'https://www.facebook.com/john.keck.125'):
+def facebook_login(driver, wait, email, password, name, username, permalink):
     """
-    navigates to the input user's Facebook Homepage
-    Default parameters are the email/password/website for the Semantic Security test user "John Keck"
+    Logs into Facebook and navigates to the input user's Facebook Page
     
     :param driver: Firefox WebDriver object
     :param wait: Selenium Firefox Wait object
-    :param username: The name of the user
     :param email: Facebook login email
     :param password: Facebook login password
-    :param permalink: https://www.facebook.com/[facebook username]
+    :param name: The name of the user
+    :param username: Facebook-assigned username, found in the user's page link
+    :param permalink: Facebook link to the user's page: 'https://www.facebook.com/[facebook username]'
     :return:
     """
     # Log in to Facebook
@@ -231,9 +229,7 @@ def facebook_login(driver, wait, email = 'TimElvResearch@gmail.com', password = 
     
     wait.until_not(EC.title_contains("Log In or Sign Up"))
     driver.get(permalink)
-    wait.until(EC.title_contains("{} | Facebook".format(username)))
-    
-    scroll_down(driver)
+    wait.until(EC.title_contains("{} | Facebook".format(name)))
 
 
 def print_elements(elements):
@@ -288,7 +284,8 @@ def scroll_down(driver, scroll_pause_time = 2):
         scroll_page_down(driver)
         
         # Wait to load page
-        sleep(scroll_pause_time)
+        # Randomness might help with Facebook bot detection algorithms?
+        sleep(random.random() * scroll_pause_time + 2)
         
         # Randomly scroll up
         # This behaviour is necessary because Facebook will shadow-block you if it thinks you are not human
