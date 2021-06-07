@@ -10,6 +10,7 @@ from time import sleep
 import datetime
 
 john_permalink = "https://www.facebook.com/john.keck.125"
+john_friends_link = "https://www.facebook.com/john.keck.125/friends"
 john_username = 'john.keck.125'
 john_name = "John Keck"
 
@@ -46,20 +47,20 @@ class User:
 if __name__ == '__main__':
     try:
         firefox, wait = get_driver()
-        scroll_down_v2(firefox, 2.0)  # default delay of 0.5 rarely works- extended to support variable environments
+        facebook_login(firefox, wait)
         
         # get_methods(user_info[0])
         # get_variables(user_info[0])
         
+        print("Cleared popup:", check_clear_popups(firefox, wait))
+        
+        # collect basic user information from page
         john = User(john_name)
-        user_info = get_user_information(firefox)
-        
-        get_button_elements(firefox, "input[role='button']")
-        
+        user_info = get_user_information(firefox, john_permalink, john_friends_link)
         john.set_information(user_info)
         
         print("\n\n" + str(john))
-        
+    
     finally:
         # post-run cleanup
         sleep(5)
