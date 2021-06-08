@@ -4,7 +4,6 @@ This file contains all the methods and structures necessary to scrape informatio
 import random
 import regex
 
-import emoji as emoji
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver import ActionChains
