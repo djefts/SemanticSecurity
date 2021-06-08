@@ -38,12 +38,12 @@ def cleanDataframe(dataframe):
 	return postsDf
 
 def extractPartsOfSpeech(sent, posList):
-	posSent = Dissector.posExtraction(sent)
+	posSent = Dissector.pos_extraction(sent)
 	posList.append(posSent)
 	return posSent
 
 def extractEntities(sent, entList):
-	entSent = Dissector.entityExtraction(sent)
+	entSent = Dissector.entity_extraction(sent)
 	entList.append(entSent)
 
 def printAnalysisToConsole(posList, entList):

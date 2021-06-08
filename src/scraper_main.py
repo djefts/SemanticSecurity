@@ -76,6 +76,7 @@ if __name__ == '__main__':
         
         # collect facebook posts text
         posts = get_posts(firefox, permalink)
+        print("\n\nPOSTS:")
         print('\n'.join(posts))
         
         print("\n\n" + str(user))

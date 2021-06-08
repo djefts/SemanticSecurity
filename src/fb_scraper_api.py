@@ -100,9 +100,8 @@ def get_user_information(driver, user_link, user_friends_link):
     friends = get_friends(driver, user_friends_link)
     print("\n\nFRIENDS:", friends)
     user_info['friends'] = friends
-    user_info['friends'] = []
     
-    print("Collected basic information.")
+    print("\nCollected basic information.")
     return user_info
 
 
@@ -117,7 +116,7 @@ def get_friends(driver, friends_link):
     sleep(4)
     driver.get(friends_link)
     scroll_down(driver, 5)
-    spans = search_css_elements(driver, """span[dir="auto"]""")
+    spans = search_css_elements(driver, """a[role="link"]>span""")
     
     # the text elements that are not names
     invalid_names = ['', 'About', 'All Friends', 'Birthdays', 'College', 'Current City', 'Following', 'High School',
@@ -128,7 +127,9 @@ def get_friends(driver, friends_link):
             # the first check limits search to just text elements
             # the second check removes those that are not names
             if span.text == span.get_attribute('innerHTML') and span.text not in invalid_names:
-                friends.append(span.text)
+                # lots of if checks to do
+                if span.text not in friends and 'mutual friends' not in span.text:
+                    friends.append(span.text)
         except StaleElementReferenceException:
             pass
     
@@ -136,14 +137,18 @@ def get_friends(driver, friends_link):
 
 
 def get_hobbies(driver):
+    # load some of the page
     scroll_page_down(driver)
     scroll_page_up(driver)
+    sleep(1)
     try:
         # if there are more than ~7 hobbies then there is a "See All" button
         # find the popup button, scroll it into view, then click on it
         hobbies_button = search_css_elements(driver, """div[aria-pressed]""")[0]
         driver.execute_script("window.scrollTo(0, {});".format(hobbies_button.location['y'] - 100))
         hobbies_button.click()
+        # there are issues if this doesn't get time to load
+        sleep(2)
     except IndexError:
         # no "See All" Hobbies button
         print("Less than 7 hobbies.")
@@ -152,27 +157,31 @@ def get_hobbies(driver):
     hobbies_elements = search_css_elements(driver, """a[aria-label]""")
     hobbies = []
     for element in hobbies_elements:
-        hobby = element.text.replace('\n', ' ')
-        # I hope this never breaks in the future with later Unicode emoji updates
-        count = len(regex.findall('[😀-🙏🌀-🗿🚀-🛿☀-➿︀-︀️]', hobby))
-        if count > 0:
-            hobby = hobby.split(' ', 1)[1]
-            if hobby not in hobbies:
-                hobbies.append(hobby)
+        try:
+            hobby = element.text.replace('\n', ' ')
+            # I hope this never breaks in the future with later Unicode emoji updates
+            count = len(regex.findall('[😀-🙏🌀-🗿🚀-🛿☀-➿︀-︀️]', hobby))
+            if count > 0:
+                hobby = hobby.split(' ', 1)[1]
+                if hobby not in hobbies:
+                    hobbies.append(hobby)
+        except StaleElementReferenceException:
+            # we dont usually need to worry about elements that get unloaded...?
+            pass
     
     return hobbies
 
 
 def get_posts(driver, permalink):
-    print("\n\n")
     driver.get(permalink)
     scroll_down(driver)
     post_elements = search_css_elements(driver, """div[class="kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x c1et5uql"]""")
-    print_elements(post_elements)
+    # print_elements(post_elements)
     
     posts_text = []
     for element in post_elements:
-        posts_text.append(element.text)
+        if element.text != '':
+            posts_text.append(element.text)
     return posts_text
 
 

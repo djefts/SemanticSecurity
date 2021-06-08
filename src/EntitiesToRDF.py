@@ -11,7 +11,7 @@ from rdflib import Namespace
 from rdflib.namespace import DCTERMS, SKOS, PROV, PROF
 
 g = Graph()
-g.bind("foaf",FOAF)
+g.bind("foaf", FOAF)
 
 JKeck = URIRef('https://www.facebook.com/john.keck.125');
 DJefts = URIRef('https://www.facebook.com/david.jefts');
@@ -43,19 +43,14 @@ g.add((DJefts, FOAF.knows, JOrtiz))
 g.add((JKeck, siocNamespace.likes, demonSlayer))
 g.add((demonSlayer, FOAF.name, DSname))
 
-#print(g.serialize(format="turtle").decode("utf-8"))
+# print(g.serialize(format="turtle").decode("utf-8"))
 
-#print("--- printing raw triples ---")
-#for s, p, o in g:
+# print("--- printing raw triples ---")
+# for s, p, o in g:
 #    print((s, p, o))
 
 # print all the data in the Notation3 format
 print("--- printing mboxes ---")
-print(g.serialize(format='n3').decode("utf-8"))
-
+print(g.serialize(format = 'n3').decode("utf-8"))
 
 # In[ ]:
-
-
-
-
