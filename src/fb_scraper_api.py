@@ -2,6 +2,7 @@
 This file contains all the methods and structures necessary to scrape information from an input Facebook page
 """
 import random
+import regex
 
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
@@ -99,6 +100,7 @@ def get_user_information(driver, user_link, user_friends_link):
     friends = get_friends(driver, user_friends_link)
     print("\n\nFRIENDS:", friends)
     user_info['friends'] = friends
+    user_info['friends'] = []
     
     print("Collected basic information.")
     return user_info
@@ -115,9 +117,7 @@ def get_friends(driver, friends_link):
     sleep(4)
     driver.get(friends_link)
     scroll_down(driver, 5)
-    # print("\n\nFriends:")
     spans = search_css_elements(driver, """span[dir="auto"]""")
-    # print_elements(spans)
     
     # the text elements that are not names
     invalid_names = ['', 'About', 'All Friends', 'Birthdays', 'College', 'Current City', 'Following', 'High School',
@@ -142,27 +142,23 @@ def get_hobbies(driver):
         # if there are more than ~7 hobbies then there is a "See All" button
         # find the popup button, scroll it into view, then click on it
         hobbies_button = search_css_elements(driver, """div[aria-pressed]""")[0]
-        driver.execute_script("window.scrollTo(0, {});".format(hobbies_button.location['y']))
+        driver.execute_script("window.scrollTo(0, {});".format(hobbies_button.location['y'] - 100))
         hobbies_button.click()
     except IndexError:
         # no "See All" Hobbies button
         print("Less than 7 hobbies.")
     
-    # Hobbies appear in the format:
-    # element.get_attribute("aria-label") :: 'Reading'
-    # element.text :: '📖 Reading'
+    # All hobbies have an emoji right before the hobby in the aria-label's text
     hobbies_elements = search_css_elements(driver, """a[aria-label]""")
     hobbies = []
     for element in hobbies_elements:
-        hobby = element.get_attribute("aria-label")
-        if hobby in element.text:
-            try:
-                # skip the elements that are just dates
-                parser.parse(hobby, fuzzy = False)
-                pass
-            except ValueError:
-                if hobby not in hobbies and hobby != 'Add to Story':
-                    hobbies.append(hobby)
+        hobby = element.text.replace('\n', ' ')
+        # I hope this never breaks in the future with later Unicode emoji updates
+        count = len(regex.findall('[😀-🙏🌀-🗿🚀-🛿☀-➿︀-︀️]', hobby))
+        if count > 0:
+            hobby = hobby.split(' ', 1)[1]
+            if hobby not in hobbies:
+                hobbies.append(hobby)
     
     return hobbies
 
@@ -235,7 +231,7 @@ def facebook_login(driver, wait, email, password, name, username, permalink):
 def print_elements(elements):
     for element in elements:
         try:
-            print('{} ||| {}'.format(element.get_attribute('innerHTML'), element.text.replace('\n', ' ')))
+            print("{} ||| '{}'".format(element.get_attribute('innerHTML'), element.text.replace('\n', ' ')))
         except StaleElementReferenceException:
             pass
 
@@ -280,6 +276,13 @@ def scroll_down(driver, scroll_pause_time = 2):
     sleep(scroll_pause_time / 2.0)
     
     while True:
+        try:
+            # the presence of this element indicates the user's timeline is not completely loaded
+            search_css_elements(driver, """div[class="suspended-feed"]""")[0]
+        except IndexError:
+            # error means the element was not found. Timeline is loaded
+            break
+        # print(loading_element)
         # Scroll down to bottom
         scroll_page_down(driver)
         

@@ -52,16 +52,16 @@ if __name__ == '__main__':
     try:
         firefox, wait = get_driver()
         
-        # email = 'TimElvResearch@gmail.com'
-        # password = 'keckW2323#'
-        # name = 'John Keck'
-        # username = 'john.keck.125'
-        # permalink = 'https://www.facebook.com/john.keck.125'
-        email = 'dvdjefts27@gmail.com'
-        password = 'i love maria 2'
-        name = 'David Jefts'
-        username = 'david.jefts'
-        permalink = 'https://www.facebook.com/david.jefts'
+        email = 'TimElvResearch@gmail.com'
+        password = 'keckW2323#'
+        name = 'John Keck'
+        username = 'john.keck.125'
+        permalink = 'https://www.facebook.com/john.keck.125'
+        # email = 'dvdjefts27@gmail.com'
+        # password = 'i love maria 2'
+        # name = 'David Jefts'
+        # username = 'david.jefts'
+        # permalink = 'https://www.facebook.com/david.jefts'
         
         friends_permalink = permalink + '/friends'
         
