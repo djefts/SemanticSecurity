@@ -1,26 +1,34 @@
-What was the house number and street name you lived in as a child?
-What were the last four digits of your childhood telephone number?
+# Security Questions to be Compared with Data
 
-In what town or city was your first full time job?
-In what town or city did you meet your spouse or partner?
-What is the middle name of your oldest child?
-What are the last five digits of your driver's license number?
-What is your grandmother's aiden name?
-What is your spouse or partner's mother's maiden name?
-In what town or city did your parents meet?
-What was your favorite school teacher's name?
-What is your favorite movie?
-What was your first car?
-What is you astrolgical sign?
-What city were you born in?
-What is your oldest sibling's middle name?
-
-
-# More common:
-1. What primary school did you attend?
+## Most Common Questions:
+1. What elementary school did you attend?
 2. What city were you born in?
 3. What is your oldest sibling's middle name?
+4. What was your first car?
+5. What was the name of your elementary/middle/high school/college?
+6. What is your favorite food?
+7. What is your mother’s maiden name?
+8. Where is your favorite place to vacation?
+9. What is the name of the road you grew up on?
+10. What was your favorite subject in school?
+11. What was the name of your first grade teacher?
+12. What street did you grow up on?
+13. Where’s the first place you spent a vacation?
+14. What is your favorite sports team?
+15. What was the name of your first pet?
+16. What is your favorite food?
+17. Where were you married?
+18. What is the first name of your first boyfriend/girlfriend?
+19. What was your first job?
+20. What was your elementary/middle/high school mascot?
+21. What is your favorite color?
+22. What is your favorite ice cream flavor?
+23. Where did you meet your spouse?
+24. What Is your favorite book?
+25. What is your favorite movie?
 
-
-
-# Less Common:
+## Less Common:
+1. What is you astrolgical sign?
+2. What are the last five digits of your driver's license number?
+3. What were the last four digits of your childhood telephone number?
+4. 
