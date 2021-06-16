@@ -45,8 +45,6 @@ def entity_extraction(sentence):
 # this is just advanced string munging (enter patrick star meme of flashlight)
 
 # def relationExtraction(sent):
-
-
 postsDf = pd.read_json(r'C:/ERAU Juancho/Spring 2021/Omar/your_posts_1.json')
 posList = []
 entList = []
@@ -57,4 +55,3 @@ pos_tag = nltk.pos_tag(tokens)
 print(pos_tag)
 print(nltk.ne_chunk(pos_tag, binary = True))
 
-# In[ ]:

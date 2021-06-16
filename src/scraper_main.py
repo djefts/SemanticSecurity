@@ -48,20 +48,15 @@ class User:
         return string
 
 
-if __name__ == '__main__':
+def fb_scraper_main(fb_user_information):
     try:
         firefox, wait = get_driver()
         
-        email = 'TimElvResearch@gmail.com'
-        password = 'keckW2323#'
-        name = 'John Keck'
-        username = 'john.keck.125'
-        permalink = 'https://www.facebook.com/john.keck.125'
-        # email = 'dvdjefts27@gmail.com'
-        # password = 'i love maria 2'
-        # name = 'David Jefts'
-        # username = 'david.jefts'
-        # permalink = 'https://www.facebook.com/david.jefts'
+        email = fb_user_information['email']
+        password = fb_user_information['password']
+        name = fb_user_information['name']
+        username = fb_user_information['username']
+        permalink = fb_user_information['permalink']
         
         friends_permalink = permalink + '/friends'
         
@@ -85,3 +80,18 @@ if __name__ == '__main__':
         # post-run cleanup
         sleep(5)
         firefox.quit()
+        return posts
+
+
+if __name__ == '__main__':
+    john_fb_login = {'email': 'TimElvResearch@gmail.com',
+                     'password': 'keckW2323#',
+                     'name': 'John Keck',
+                     'username': 'john.keck.125',
+                     'permalink': 'https://www.facebook.com/john.keck.125'}
+    david_fb_login = {'email': 'dvdjefts27@gmail.com',
+                      'password': 'i love maria 2',
+                      'name': 'David Jefts',
+                      'username': 'david.jefts',
+                      'permalink': 'https://www.facebook.com/david.jefts'}
+    fb_scraper_main(john_fb_login)

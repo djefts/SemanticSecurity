@@ -13,10 +13,10 @@ from rdflib.namespace import DCTERMS, SKOS, PROV, PROF
 g = Graph()
 g.bind("foaf", FOAF)
 
-JKeck = URIRef('https://www.facebook.com/john.keck.125');
-DJefts = URIRef('https://www.facebook.com/david.jefts');
-demonSlayer = URIRef('https://www.imdb.com/title/tt9335498/');
-JOrtiz = URIRef('https://www.facebook.com/juan.ortizcouder');
+JKeck = URIRef('https://www.facebook.com/john.keck.125')
+DJefts = URIRef('https://www.facebook.com/david.jefts')
+demonSlayer = URIRef('https://www.imdb.com/title/tt9335498/')
+JOrtiz = URIRef('https://www.facebook.com/juan.ortizcouder')
 siocNamespace = Namespace('http://rdfs.org/sioc/ns#')
 
 JKeckName = Literal('John W Keck')

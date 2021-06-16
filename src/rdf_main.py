@@ -4,14 +4,14 @@
 # In[1]:
 
 
-#Running Experiment on Facebook Account John Keck
+# Running Experiment on Facebook Account John Keck
 #
-#Username: TimElvResearch@gmail.com
-#Password: keckW2323#
+# Username: TimElvResearch@gmail.com
+# Password: keckW2323#
 #
 #
-#Testing facebook-scraper from pypi
-#03262021
+# Testing facebook-scraper from pypi
+# 03262021
 ####
 import rdflib
 from rdflib import URIRef, Literal, BNode
@@ -19,96 +19,88 @@ from rdflib import Graph
 from rdflib import Namespace
 from rdflib.namespace import DCTERMS, FOAF, SKOS, XSD, PROV, PROF, RDF
 
-import import_ipynb
-
 import pandas as pd
 import Dissector
 import EntitiesToRDF
 
+
 def mung(post):
-	listMung = (post['data'])
-	dictMung = listMung[0]
-	sent = dictMung["post"]
-	return sent
+    list_mung = (post['data'])
+    dict_mung = list_mung[0]
+    sent = dict_mung["post"]
+    return sent
 
-def cleanDataframe(dataframe):
-	postsDf = dataframe.drop(columns = ['title'])
-	timestampsDf = dataframe['timestamp'].copy()
-	postsDf = dataframe.drop(columns = ['timestamp'])
-	return postsDf
 
-def extractPartsOfSpeech(sent, posList):
-	posSent = Dissector.pos_extraction(sent)
-	posList.append(posSent)
-	return posSent
+def clean_dataframe(dataframe):
+    posts_df = dataframe.drop(columns = ['title'])
+    timestamps_df = dataframe['timestamp'].copy()
+    posts_df = dataframe.drop(columns = ['timestamp'])
+    return posts_df
 
-def extractEntities(sent, entList):
-	entSent = Dissector.entity_extraction(sent)
-	entList.append(entSent)
 
-def printAnalysisToConsole(posList, entList):
-	print("Parts of Speech:")
-	for list in posList:
-		print(list)
-	print('\n\n\n')
+def extract_parts_of_speech(sent, pos_list):
+    pos_sent = Dissector.pos_extraction(sent)
+    pos_list.append(pos_sent)
+    return pos_sent
 
-	print("Entities:")
-	for list in entList:
-		if list:
-			print(list)
-		if not list:
-			entList.remove(list)
-	print('\n')
+
+def extract_entities(sent, ent_list):
+    ent_sent = Dissector.entity_extraction(sent)
+    ent_list.append(ent_sent)
+
+
+def print_analysis_to_console(pos_list, ent_list):
+    print("Parts of Speech:")
+    for pos in pos_list:
+        print(pos)
+    print('\n\n\n')
+    
+    print("Entities:")
+    for pos in ent_list:
+        if pos:
+            print(pos)
+        if not pos:
+            ent_list.remove(pos)
+    print('\n')
 
 
 if __name__ == "__main__":
-
-	postsDf = pd.read_json(r'C:/ERAU Juancho/Spring 2021/Omar/your_posts_1.json')
-
-	##move to a method
-	##postsDf.info()
-	##print(postsDf)
-	##print(postsDf['data'])
-
-	##print(postsDf)
-	##print(timestampsDf)
-	postsDf = cleanDataframe(postsDf)
-
-	posList = []
-	entList = []
     
-	for index, post in postsDf.iterrows():
-		sentence = mung(post)
-		pos_tag = extractPartsOfSpeech(sentence,posList)
-		extractEntities(pos_tag, entList)
-
-		#subObjList = extractSubsObjects(sentence)
-		#relationList = extractRelations(sentence)
-
-	#SocialRDF.generateTriples(subObjList, relationList)
-	#SocialRDF.additionalTriples(subObjList, entList)
-
-	printAnalysisToConsole(posList, entList)
+    postsDf = pd.read_json(r'C:/ERAU Juancho/Spring 2021/Omar/your_posts_1.json')
+    
+    # move to a method
+    # postsDf.info()
+    # print(postsDf)
+    # print(postsDf['data'])
+    
+    # print(postsDf)
+    # print(timestampsDf)
+    postsDf = clean_dataframe(postsDf)
+    
+    posList = []
+    entList = []
+    
+    for index, post in postsDf.iterrows():
+        sentence = mung(post)
+        pos_tag = extract_parts_of_speech(sentence, posList)
+        extract_entities(pos_tag, entList)
+    
+    # subObjList = extractSubsObjects(sentence)
+    # relationList = extractRelations(sentence)
+    
+    # SocialRDF.generateTriples(subObjList, relationList)
+    # SocialRDF.additionalTriples(subObjList, ent_list)
+    
+    print_analysis_to_console(posList, entList)
 
 
 else:
-	print('you cant import a main, tim')
+    print('you cant import a main, tim')
+
+# In[ ]:
 
 
 # In[ ]:
 
 
-
-
-
 # In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-

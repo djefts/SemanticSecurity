@@ -97,6 +97,7 @@ def get_user_information(driver, user_link, user_friends_link):
     user_info['hobbies'] = hobbies
     
     # Get friends
+    # TODO fix this
     friends = get_friends(driver, user_friends_link)
     print("\n\nFRIENDS:", friends)
     user_info['friends'] = friends
@@ -116,6 +117,7 @@ def get_friends(driver, friends_link):
     sleep(4)
     driver.get(friends_link)
     scroll_down(driver, 5)
+    # TODO change this CSS search
     spans = search_css_elements(driver, """a[role="link"]>span""")
     
     # the text elements that are not names
