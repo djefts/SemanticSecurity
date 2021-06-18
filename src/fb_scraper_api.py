@@ -97,7 +97,6 @@ def get_user_information(driver, user_link, user_friends_link):
     user_info['hobbies'] = hobbies
     
     # Get friends
-    # TODO fix this
     friends = get_friends(driver, user_friends_link)
     print("\n\nFRIENDS:", friends)
     user_info['friends'] = friends
@@ -117,21 +116,23 @@ def get_friends(driver, friends_link):
     sleep(4)
     driver.get(friends_link)
     scroll_down(driver, 5)
-    # TODO change this CSS search
-    spans = search_css_elements(driver, """a[role="link"]>span""")
+    
+    friends_element = driver.find_element_by_css_selector("""div[data-pagelet="ProfileAppSection_0"]""")
+    links = friends_element.find_elements_by_css_selector("""a[role="link"]""")
     
     # the text elements that are not names
-    invalid_names = ['', 'About', 'All Friends', 'Birthdays', 'College', 'Current City', 'Following', 'High School',
-                     'More', 'Photos', 'Posts', 'Story Archive', 'Videos', 'Work']
+    invalid_names = ['', 'Friends', 'Friend Requests', 'Find Friends']
     friends = []
-    for span in spans:
+    for link in links:
         try:
+            friend_link = link.get_attribute('href')
             # the first check limits search to just text elements
             # the second check removes those that are not names
-            if span.text == span.get_attribute('innerHTML') and span.text not in invalid_names:
-                # lots of if checks to do
-                if span.text not in friends and 'mutual friends' not in span.text:
-                    friends.append(span.text)
+            if link.text not in invalid_names:
+                if link.text not in friends and 'mutual friends' not in link.text:
+                    friend_name = link.text
+                    print((friend_name, friend_link))
+                    friends.append((friend_name, friend_link))
         except StaleElementReferenceException:
             pass
     

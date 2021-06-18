@@ -47,10 +47,11 @@ def extract_parts_of_speech(sent, pos_list):
 def extract_entities(sent, ent_list):
     ent_sent = Dissector.entity_extraction(sent)
     ent_list.append(ent_sent)
+    return ent_sent
 
 
 def print_analysis_to_console(pos_list, ent_list):
-    print("Parts of Speech:")
+    print("\nParts of Speech:")
     for pos in pos_list:
         print(pos)
     print('\n\n\n')
@@ -62,18 +63,23 @@ def print_analysis_to_console(pos_list, ent_list):
         if not pos:
             ent_list.remove(pos)
     print('\n')
+    
+
+def analyze_post(post):
+    pos = extract_parts_of_speech(post, [])
+    ent = extract_entities(pos, [])
+    return pos, ent
 
 
 if __name__ == "__main__":
-    
-    postsDf = pd.read_json(r'C:/ERAU Juancho/Spring 2021/Omar/your_posts_1.json')
+    postsDf = pd.read_json(r'C:\Users\David Jefts\Desktop\SemanticSecurity\src\your_posts_1.json')
     
     # move to a method
     # postsDf.info()
     # print(postsDf)
     # print(postsDf['data'])
     
-    # print(postsDf)
+    print(postsDf)
     # print(timestampsDf)
     postsDf = clean_dataframe(postsDf)
     
@@ -92,15 +98,3 @@ if __name__ == "__main__":
     # SocialRDF.additionalTriples(subObjList, ent_list)
     
     print_analysis_to_console(posList, entList)
-
-
-else:
-    print('you cant import a main, tim')
-
-# In[ ]:
-
-
-# In[ ]:
-
-
-# In[ ]:

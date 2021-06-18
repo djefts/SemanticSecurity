@@ -21,10 +21,11 @@ class User:
         self.pronunciation = ''
         self.lives_in = ''
         self.hometown = ''
-        self.hobbies = []
-        self.friends = []
-        self.degrees = []
-        self.schools = []
+        self.hobbies = []  # list of nouns
+        self.friends = []  # list of tuples
+        self.degrees = []  # list of strings, index matches schools
+        self.schools = []  # list of strings, index matches degrees
+        self.fb_posts = []  # list of strings
     
     def set_information(self, information):
         self.pronunciation = information['pronunciation']
@@ -49,14 +50,17 @@ class User:
 
 
 def fb_scraper_main(fb_user_information):
+    email = fb_user_information['email']
+    password = fb_user_information['password']
+    name = fb_user_information['name']
+    username = fb_user_information['username']
+    permalink = fb_user_information['permalink']
+    
+    user = User(name)
+    
+    posts = []
     try:
         firefox, wait = get_driver()
-        
-        email = fb_user_information['email']
-        password = fb_user_information['password']
-        name = fb_user_information['name']
-        username = fb_user_information['username']
-        permalink = fb_user_information['permalink']
         
         friends_permalink = permalink + '/friends'
         
@@ -65,22 +69,21 @@ def fb_scraper_main(fb_user_information):
         print("Cleared popup:", check_clear_popups(firefox, wait))
         
         # collect basic user information from page
-        user = User(name)
         user_info = get_user_information(firefox, permalink, friends_permalink)
         user.set_information(user_info)
         
         # collect facebook posts text
-        posts = get_posts(firefox, permalink)
+        user.posts = get_posts(firefox, permalink)
         print("\n\nPOSTS:")
         print('\n'.join(posts))
         
         print("\n\n" + str(user))
     
     finally:
-        # post-run cleanup
+        # posts-run cleanup
         sleep(5)
         firefox.quit()
-        return posts
+        return user
 
 
 if __name__ == '__main__':
