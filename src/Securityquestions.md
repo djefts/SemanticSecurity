@@ -31,4 +31,12 @@
 1. What is you astrolgical sign?
 2. What are the last five digits of your driver's license number?
 3. What were the last four digits of your childhood telephone number?
-4. 
+4. What was your childhood house (or apartment) number?
+5. Who was your childhood hero?
+6. Who was your favorite childhood author?
+7. What did you want to be when you grew up?
+8. In what city does your nearest sibling live? 
+9. What year did you have your first kiss?
+10. In what city does your nearest sibling live?
+11. What is a name of a college that you applied but didn't attend?
+12. What was the name of your first stuffed animal?
