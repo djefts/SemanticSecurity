@@ -1,0 +1,17 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<https://www.facebook.com/john.keck.125> a foaf:Person ;
+    foaf:knows <https://www.facebook.com/david.jefts>,
+        <https://www.facebook.com/juan.ortizcouder>,
+        <https://www.facebook.com/tim.elvira> ;
+    foaf:name "John Keck" .
+
+<https://www.facebook.com/david.jefts> a foaf:Person ;
+    foaf:name "David Jefts" .
+
+<https://www.facebook.com/juan.ortizcouder> a foaf:Person ;
+    foaf:name "Juan Ortiz Couder" .
+
+<https://www.facebook.com/tim.elvira> a foaf:Person ;
+    foaf:name "Tim Elvira" .
+

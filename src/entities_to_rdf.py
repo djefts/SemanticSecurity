@@ -6,7 +6,7 @@
 
 import rdflib
 from rdflib import Graph, RDF, URIRef, Literal, BNode
-from rdflib.namespace import FOAF, XSD
+from rdflib.namespace import FOAF
 from rdflib import Namespace
 from rdflib.namespace import DCTERMS, SKOS, PROV, PROF
 
@@ -15,11 +15,20 @@ def get_uri(entity):
     pass
 
 
-def add_friend(k_graph, user_uri, friend_name, link):
+def add_friend(k_graph, FOAF, user_uri, friend_name, link):
     friend_uri = URIRef(link)
     k_graph.add((friend_uri, RDF.type, FOAF.Person))
     k_graph.add((friend_uri, FOAF.name, Literal(friend_name)))
     k_graph.add((user_uri, FOAF.knows, friend_uri))
+    
+
+def add_diploma(k_graph, degree, school):
+    degree_uri = URIRef(degree + ' - ' + school)
+    school_uri = URIRef(school)
+    k_graph.add((degree_uri, RDF.type, EDU))
+    k_graph.add((school_uri, RDF.type,))
+    k_graph.add((degree_uri, EDU.recognizedBy, school_uri))
+    k_graph.add((user_fb_uri, FOAF.hasCredential,))
 
 
 if __name__ == "__main__":

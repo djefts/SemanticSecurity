@@ -21,7 +21,7 @@ from rdflib.namespace import DCTERMS, FOAF, SKOS, XSD, PROV, PROF, RDF
 
 import pandas as pd
 import Dissector
-import EntitiesToRDF
+import entities_to_rdf
 
 
 def mung(post):

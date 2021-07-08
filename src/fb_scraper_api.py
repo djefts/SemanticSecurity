@@ -84,12 +84,15 @@ def get_user_information(driver, user_link, user_friends_link):
             user_info['hometown'] = span.split("From ")[1]
         if "Pronounces name " in span:
             user_info['pronunciation'] = span.split("Pronounces name ")[1]
-        if "Studies " in span:
+        if "Studies " in span:  # current degree
             user_info['degrees'].append(span.split("Studies ")[1].split(" at")[0])
             user_info['schools'].append(span.split(" at ")[1])
-        if "Studied " in span:
+        if "Studied " in span:  # completed degree
             user_info['degrees'].append(span.split("Studied ")[1].split(" at")[0])
             user_info['schools'].append(span.split(" at ")[1])
+        if "Went to " in span:  # non-degree education
+            user_info['degrees'].append("No degree")
+            user_info['schools'].append(span.split("Went to ")[1])
     
     # Get hobbies
     hobbies = get_hobbies(driver)
@@ -131,7 +134,7 @@ def get_friends(driver, friends_link):
             if link.text not in invalid_names:
                 if link.text not in friends and 'mutual friends' not in link.text:
                     friend_name = link.text
-                    print((friend_name, friend_link))
+                    # print((friend_name, friend_link))
                     friends.append((friend_name, friend_link))
         except StaleElementReferenceException:
             pass
