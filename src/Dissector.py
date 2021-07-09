@@ -26,7 +26,7 @@ nltk.download('words')
 def mung(post):
     list_mung = (post['data'])
     dict_mung = list_mung[0]
-    sent = dict_mung["post"]
+    sent = dict_mung["posts"]
     return sent
 
 
@@ -41,17 +41,18 @@ def entity_extraction(sentence):
     return ent
 
 
-# def extractSubsAndObs(sent):
-# this is just advanced string munging (enter patrick star meme of flashlight)
-
-# def relationExtraction(sent):
-postsDf = pd.read_json(r'C:/ERAU Juancho/Spring 2021/Omar/your_posts_1.json')
-posList = []
-entList = []
-
-test = 'John Keck has $51 Billion dollars worth of Bitcoin given to him from Trump and Elon Musk lawsuit.'
-tokens = nltk.word_tokenize(test)
-pos_tag = nltk.pos_tag(tokens)
-print(pos_tag)
-print(nltk.ne_chunk(pos_tag, binary = True))
+if __name__ == "__main__":
+    # def extractSubsAndObs(sent):
+    # this is just advanced string munging (enter patrick star meme of flashlight)
+    
+    # def relationExtraction(sent):
+    postsDf = pd.read_json(r'C:\Users\David Jefts\Desktop\SemanticSecurity\src\your_posts_1.json')
+    posList = []
+    entList = []
+    
+    test = 'John Keck has $51 Billion dollars worth of Bitcoin given to him from Trump and Elon Musk lawsuit.'
+    tokens = nltk.word_tokenize(test)
+    pos_tag = nltk.pos_tag(tokens)
+    print(pos_tag)
+    print(nltk.ne_chunk(pos_tag, binary = True))
 
