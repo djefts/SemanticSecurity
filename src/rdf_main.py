@@ -20,7 +20,7 @@ from rdflib import Namespace
 from rdflib.namespace import DCTERMS, FOAF, SKOS, XSD, PROV, PROF, RDF
 
 import pandas as pd
-import Dissector
+import dissector
 import entities_to_rdf
 
 
@@ -39,13 +39,13 @@ def clean_dataframe(dataframe):
 
 
 def extract_parts_of_speech(sent, pos_list):
-    pos_sent = Dissector.pos_extraction(sent)
+    pos_sent = dissector.pos_extraction(sent)
     pos_list.append(pos_sent)
     return pos_sent
 
 
 def extract_entities(sent, ent_list):
-    ent_sent = Dissector.entity_extraction(sent)
+    ent_sent = dissector.entity_extraction(sent)
     ent_list.append(ent_sent)
     return ent_sent
 
