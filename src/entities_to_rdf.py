@@ -11,16 +11,46 @@ from rdflib import Namespace
 from rdflib.namespace import DCTERMS, SKOS, PROV, PROF
 
 
-def get_uri(entity):
-    pass
+def init_social_media(k_graph, homepages):
+    sites_uris = {}
+    for social_media in homepages:
+        site_uri = URIRef(social_media)
+        k_graph.add((site_uri, RDF.type, FOAF.Document))
+        sites_uris[social_media] = site_uri
+    return sites_uris
 
 
-def add_friend(k_graph, FOAF, user_uri, friend_name, link):
-    friend_uri = URIRef(link)
+def get_namespaces(k_graph):
+    namespaces = {}
+    for prefix, namespace in k_graph.namespace_manager.namespaces():
+        namespaces[prefix] = namespace
+    return namespaces
+
+
+def add_online_account(k_graph, user_uri, user_homepage, account_username, service_uri):
+    account_uri = URIRef(user_homepage)
+    k_graph.add((account_uri, RDF.type, FOAF.OnlineAccount))
+    k_graph.add((account_uri, FOAF.accountName, Literal(account_username)))
+    k_graph.add((account_uri, FOAF.accountServiceHomepage, service_uri))
+    k_graph.add((user_uri, FOAF.account, account_uri))
+    return account_uri
+
+
+def add_online_friend(k_graph, user_uri, friend_uri, friend_name, account_link, friend_username, service_uri):
+    # TODO: ensure friend doesn't exist in graph already
+    # user node instantiation
+    k_graph.add((friend_uri, RDF.type, FOAF.Person))
+    
+    # Friend's FB Account:
+    add_online_account(k_graph, friend_uri, account_link, friend_username, service_uri)
+    
+    # connect friend to user
     k_graph.add((friend_uri, RDF.type, FOAF.Person))
     k_graph.add((friend_uri, FOAF.name, Literal(friend_name)))
     k_graph.add((user_uri, FOAF.knows, friend_uri))
-    
+    k_graph.add((friend_uri, FOAF.knows, user_uri))
+    return friend_uri
+
 
 def add_diploma(k_graph, degree, school):
     degree_uri = URIRef(degree + ' - ' + school)

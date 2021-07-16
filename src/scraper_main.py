@@ -26,6 +26,11 @@ class User:
         self.degrees = []  # list of strings, index matches schools
         self.schools = []  # list of strings, index matches degrees
         self.fb_posts = []  # list of strings
+        
+        # Facebook Information:
+        self.fb_email = ''
+        self.fb_password = ''
+        self.fb_username = ''
     
     def set_information(self, information):
         self.pronunciation = information['pronunciation']
@@ -50,13 +55,18 @@ class User:
 
 
 def fb_scraper_main(fb_user_information):
-    email = fb_user_information['email']
-    password = fb_user_information['password']
     name = fb_user_information['name']
-    username = fb_user_information['username']
-    permalink = fb_user_information['permalink']
-    
     user = User(name)
+    email = user.fb_email = fb_user_information['email']
+    password = user.fb_password = fb_user_information['password']
+    username = user.fb_username = fb_user_information['username']
+    permalink = 'https://facebook.com/' + user.fb_username
+    print(permalink, fb_user_information['permalink'])
+    try:
+        assert permalink == fb_user_information['permalink']
+    except AssertionError:
+        permalink = 'https://www.facebook.com/' + user.fb_username
+        assert permalink == fb_user_information['permalink']
     
     posts = []
     try:
@@ -78,12 +88,12 @@ def fb_scraper_main(fb_user_information):
         print('\n'.join(posts))
         
         print("\n\n" + str(user))
-    
     finally:
         # posts-run cleanup
         sleep(5)
         firefox.quit()
-        return user
+    
+    return user
 
 
 if __name__ == '__main__':

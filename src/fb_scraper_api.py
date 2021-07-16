@@ -134,7 +134,7 @@ def get_friends(driver, friends_link):
             if link.text not in invalid_names:
                 if link.text not in friends and 'mutual friends' not in link.text:
                     friend_name = link.text
-                    # print((friend_name, friend_link))
+                    # print((friend_username, friend_link))
                     friends.append((friend_name, friend_link))
         except StaleElementReferenceException:
             pass

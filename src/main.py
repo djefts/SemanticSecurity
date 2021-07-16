@@ -1,3 +1,5 @@
+import json
+
 import pandas as pd
 
 import scraper_main
@@ -26,29 +28,39 @@ if __name__ == "__main__":
     # Knowledge Graph
     knowledge_graph = Graph()
     
-    # establish the namespaces
+    # establish the namespaces -- A.K.A import the Ontologies
+    SSO = Namespace('http://david.jefts/sso/')
+    knowledge_graph.bind('sso', SSO)
     FOAF = Namespace('http://xmlns.com/foaf/0.1/')
     knowledge_graph.bind('foaf', FOAF)
     SIOC = Namespace('http://rdfs.org/sioc/ns#')
     knowledge_graph.bind('sioc', SIOC)
-    EDU = Namespace('https://schema.org/EducationalOccupationalCredential')  # education credentials namespace
-    knowledge_graph.bind('edu', EDU)
+    namespaces = entities_to_rdf.get_namespaces(knowledge_graph)
+    json.dumps(namespaces, indent = 2)
     
     # user node instantiation
-    user_fb_uri = URIRef(fb_user_information['permalink'])
-    user_name = Literal(fb_user_information['name'])
-    knowledge_graph.add((user_fb_uri, RDF.type, FOAF.Person))
-    knowledge_graph.add((user_fb_uri, FOAF.name, user_name))
+    user_uri = URIRef(SSO + user.name.replace(' ', '-'))
+    print(user_uri)  # = rdflib.term.URIRef(u'http://david.jefts/sso/John-Keck')
+    knowledge_graph.add((user_uri, RDF.type, FOAF.Person))
     
-    # TODO User's other accounts:
-    # knowledge_graph.add((user_fb_uri, FOAF.sameAs, instagram))
-    # knowledge_graph.add((user_fb_uri, FOAF.sameAs, linkedin))
+    socmed_sites = {'facebook': 'https://facebook.com/',
+                    'instagram': 'https://instagram.com/',
+                    }
+    socmed_nodes = entities_to_rdf.init_social_media(knowledge_graph, socmed_sites.values())
+    
+    # Facebook Account:
+    entities_to_rdf.add_online_account(knowledge_graph, user_uri, fb_user_information['permalink'],
+                                       user.fb_username, socmed_nodes[socmed_sites['facebook']])
     
     # Add Friends to graph
     for friend in user.friends:
         name = friend[0]
         link = friend[1]
-        entities_to_rdf.add_friend(knowledge_graph, FOAF, user_fb_uri, name, link)
+        username = link.split('/')[-1]
+        friend_uri = URIRef(SSO + name.replace(' ', '-'))
+        #               add_facebook_friend(k_graph, user_uri, friend_uri, friend_name, account_link, friend_username):
+        entities_to_rdf.add_online_friend(knowledge_graph, user_uri, friend_uri, name, link, username,
+                                          socmed_nodes[socmed_sites['facebook']])
     
     # TODO Add hobbies graph
     # for hobby in user.hobbies:
@@ -59,10 +71,6 @@ if __name__ == "__main__":
     #     knowledge_graph.add((user_fb_uri, FOAF.knowsAbout, hobby_uri))
     
     # TODO Add rest of basic user information
-    # for i in range(user.degrees):
-    #     degree = user.degrees[i]
-    #     school = user.schools[i]
-    #     entities_to_rdf.add_diploma(knowledge_graph, degree, school)
     
     # print all the data
     print("--- Knowledge Graph ---")

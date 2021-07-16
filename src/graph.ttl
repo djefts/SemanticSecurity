@@ -1,17 +1,44 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix sso: <http://david.jefts/sso/> .
 
-<https://www.facebook.com/john.keck.125> a foaf:Person ;
-    foaf:knows <https://www.facebook.com/david.jefts>,
-        <https://www.facebook.com/juan.ortizcouder>,
-        <https://www.facebook.com/tim.elvira> ;
-    foaf:name "John Keck" .
+<https://instagram.com/> a foaf:Document .
 
-<https://www.facebook.com/david.jefts> a foaf:Person ;
+sso:David-Jefts a foaf:Person ;
+    foaf:account <https://www.facebook.com/david.jefts> ;
+    foaf:knows sso:John-Keck ;
     foaf:name "David Jefts" .
 
-<https://www.facebook.com/juan.ortizcouder> a foaf:Person ;
+sso:Juan-Ortiz-Couder a foaf:Person ;
+    foaf:account <https://www.facebook.com/juan.ortizcouder> ;
+    foaf:knows sso:John-Keck ;
     foaf:name "Juan Ortiz Couder" .
 
-<https://www.facebook.com/tim.elvira> a foaf:Person ;
+sso:Tim-Elvira a foaf:Person ;
+    foaf:account <https://www.facebook.com/tim.elvira> ;
+    foaf:knows sso:John-Keck ;
     foaf:name "Tim Elvira" .
+
+<https://www.facebook.com/david.jefts> a foaf:OnlineAccount ;
+    foaf:accountName "david.jefts" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125> a foaf:OnlineAccount ;
+    foaf:accountName "john.keck.125" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
+<https://www.facebook.com/juan.ortizcouder> a foaf:OnlineAccount ;
+    foaf:accountName "juan.ortizcouder" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
+<https://www.facebook.com/tim.elvira> a foaf:OnlineAccount ;
+    foaf:accountName "tim.elvira" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
+sso:John-Keck a foaf:Person ;
+    foaf:account <https://www.facebook.com/john.keck.125> ;
+    foaf:knows sso:David-Jefts,
+        sso:Juan-Ortiz-Couder,
+        sso:Tim-Elvira .
+
+<https://facebook.com/> a foaf:Document .
 
