@@ -104,6 +104,28 @@ def get_user_information(driver, user_link, user_friends_link):
     print("\n\nFRIENDS:", friends)
     user_info['friends'] = friends
     
+    # Get birthday/year
+    driver.get('https://www.facebook.com/john.keck.125/about_contact_and_basic_info')
+    about_profile = driver.find_element_by_css_selector("""div[data-pagelet="ProfileAppSection_0"]""")
+    basic_info_section = about_profile.find_element_by_css_selector("""div[class=""]""")
+    info_list = basic_info_section.text.splitlines()
+    gender = -1
+    birthday = -1
+    birthyear = -1
+    for i in range(len(info_list)):
+        # go through the info, the label is in the list one index after the data
+        element_text = info_list[i]
+        if element_text == "Gender":
+            gender = i - 1
+        if element_text == "Birth date":
+            birthday = i - 1
+        if element_text == "Birth year":
+            birthyear = i - 1
+    
+    user_info['gender'] = info_list[gender]
+    user_info['birthday'] = info_list[birthday]
+    user_info['birthyear'] = info_list[birthyear]
+    
     print("\nCollected basic information.")
     return user_info
 

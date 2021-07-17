@@ -1,5 +1,6 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix sso: <http://david.jefts/sso/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://instagram.com/> a foaf:Document .
 
@@ -36,6 +37,9 @@ sso:Tim-Elvira a foaf:Person ;
 
 sso:John-Keck a foaf:Person ;
     foaf:account <https://www.facebook.com/john.keck.125> ;
+    foaf:age 50 ;
+    foaf:birthday "09-23" ;
+    foaf:gender "male" ;
     foaf:knows sso:David-Jefts,
         sso:Juan-Ortiz-Couder,
         sso:Tim-Elvira .
