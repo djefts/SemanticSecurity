@@ -1,6 +1,4 @@
-import datetime
 import json
-from datetime import date
 
 import pandas as pd
 
@@ -51,16 +49,8 @@ if __name__ == "__main__":
     socmed_nodes = entities_to_rdf.init_social_media(knowledge_graph, socmed_sites.values())
     
     # Facebook Account:
-    entities_to_rdf.add_online_account(knowledge_graph, user_uri, fb_user_information['permalink'], user.fb_username,
-                                       socmed_nodes[socmed_sites['facebook']])
-    
-    # TODO Add rest of basic user information
-    knowledge_graph.add((user_uri, FOAF.gender, Literal(user.gender.lower())))  # FOAF docs specify lowercase
-    knowledge_graph.add((user_uri, FOAF.birthday, Literal(user.birthday[0:5])))  # birthday = 'MM-DD-YYYY'
-    today = date.today()
-    born = datetime.datetime.strptime(user.birthday, '%m-%d-%Y')
-    age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-    knowledge_graph.add((user_uri, FOAF.age, Literal(age)))
+    entities_to_rdf.add_online_account(knowledge_graph, user_uri, fb_user_information['permalink'],
+                                       user.fb_username, socmed_nodes[socmed_sites['facebook']])
     
     # Add Friends to graph
     for friend in user.friends:
@@ -79,6 +69,8 @@ if __name__ == "__main__":
     #     knowledge_graph.add((hobby_uri, RDF.type,))
     #     knowledge_graph.add((user_fb_uri, SIOC.likes, hobby_uri))
     #     knowledge_graph.add((user_fb_uri, FOAF.knowsAbout, hobby_uri))
+    
+    # TODO Add rest of basic user information
     
     # print all the data
     print("--- Knowledge Graph ---")
