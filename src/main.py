@@ -37,6 +37,8 @@ if __name__ == "__main__":
     knowledge_graph.bind('foaf', FOAF)
     SIOC = Namespace('http://rdfs.org/sioc/ns#')
     knowledge_graph.bind('sioc', SIOC)
+    
+    # print out the namespaces with formatting
     namespaces = entities_to_rdf.get_namespaces(knowledge_graph)
     json.dumps(namespaces, indent = 2)
     
