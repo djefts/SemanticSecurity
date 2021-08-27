@@ -32,7 +32,7 @@ class SocialSemanticWeb(Graph):
         # add social medias to graph
         for site in self.__socmed_sites:
             self.__socmed_sites[site][1] = self.social_service_to_rdf(self.__socmed_sites[site][0])
-            
+        
         # user node instantiation
         self.user_uri = URIRef(self.SSO + user.name.replace(' ', '-'))
         print(self.user_uri)  # = rdflib.term.URIRef(u'http://david.jefts/sso/John-Keck')
@@ -42,6 +42,9 @@ class SocialSemanticWeb(Graph):
         # Facebook Account:
         self.online_account_to_rdf(self.user_uri, fb_information['permalink'],
                                    user.fb_username, self.__socmed_sites['facebook'][1])
+        
+        # initial SIOC information
+        self.add(())
     
     def social_service_to_rdf(self, social_media):
         site_uri = URIRef(social_media)
@@ -50,10 +53,12 @@ class SocialSemanticWeb(Graph):
     
     def online_account_to_rdf(self, user_uri, user_homepage, account_username, service_uri):
         account_uri = URIRef(user_homepage)
-        self.add((account_uri, RDF.type, self.FOAF.OnlineAccount))
+        # SIOC:UserAccount is a subclass of FOAF:OnlineAccount
+        self.add((account_uri, RDF.type, self.SIOC.UserAccount))
         self.add((account_uri, self.FOAF.accountName, Literal(account_username)))
         self.add((account_uri, self.FOAF.accountServiceHomepage, service_uri))
         self.add((user_uri, self.FOAF.account, account_uri))
+        self.add((account_uri, self.SIOC.account_of, user_uri))
         return account_uri
     
     def online_friend_to_rdf(self, user_uri, friend_uri, friend_name, account_link, friend_username, service_uri):
@@ -69,6 +74,7 @@ class SocialSemanticWeb(Graph):
         self.add((friend_uri, self.FOAF.name, Literal(friend_name)))
         self.add((user_uri, self.FOAF.knows, friend_uri))
         self.add((friend_uri, self.FOAF.knows, user_uri))
+        self.add((user_uri, self.SIOC.follows, friend_uri))
         return friend_uri
     
     def facebook_friend_to_rdf(self, user_uri, friend_uri, friend_name, account_link, friend_username):
