@@ -26,6 +26,7 @@ if __name__ == "__main__":
     # TODO Relationship Extraction
     
     # Knowledge Graph
+
     semantic_social_graph = entities_to_rdf.SocialSemanticWeb(online_user, fb_user_information)
     
     # Add Friends to graph
