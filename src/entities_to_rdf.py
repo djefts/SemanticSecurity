@@ -1,13 +1,37 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+"""
+GeoNames Account Information:
+username:   semsec_erau
+email:      TimElvResearch@gmail.com
+password:   keckW2323#
+"""
+
 # In[14]:
 import json
 
 import rdflib
 from rdflib import Graph, RDF, URIRef, Literal
 from rdflib import Namespace
-from rdflib.namespace import DCTERMS, SKOS, PROV, PROF, FOAF
+from rdflib.namespace import DCTERMS, SKOS, PROV, PROF
+import geonames.adapters.search
+
+
+def geo_search(city_name, state_name):
+    """
+    Method to access the GeoNames database
+    :param city_name:
+    :param state_name:
+    :return: RDF node representing the city matching `city_name`
+    """
+    _USERNAME = 'semsec_erau'
+    sa = geonames.adapters.search.Search(_USERNAME)
+    
+    result = sa.query('detroit').country('us').max_rows(5).execute()
+    for id_, name in result.get_flat_results():
+        # make_unicode() is only used here for Python version-compatibility.
+        return geonames.compat.make_unicode("[{0}]: [{1}]").format(id_, name)
 
 
 class SocialSemanticWeb(Graph):
@@ -117,45 +141,48 @@ class SocialSemanticWeb(Graph):
 
 
 if __name__ == "__main__":
-    g = Graph()
-    g.bind("foaf", FOAF)
+    # g = Graph()
+    # g.bind("foaf", FOAF)
+    #
+    # JKeck = URIRef('https://www.facebook.com/john.keck.125')
+    # DJefts = URIRef('https://www.facebook.com/david.jefts')
+    # demonSlayer = URIRef('https://www.imdb.com/title/tt9335498/')
+    # JOrtiz = URIRef('https://www.facebook.com/juan.ortizcouder')
+    # siocNamespace = Namespace('http://rdfs.org/sioc/ns#')
+    #
+    # JKeckName = Literal('John W Keck')
+    # DJeftsName = Literal('David Jefts')
+    # JOrtizName = Literal("Juan Ortiz")
+    # DSname = Literal('Demon Slayer')
+    # age = Literal(56)
+    #
+    # g.add((JOrtiz, RDF.type, FOAF.Person))
+    # g.add((JOrtiz, FOAF.name, JOrtizName))
+    # g.add((JOrtiz, FOAF.knows, DJefts))
+    # g.add((JOrtiz, FOAF.knows, JKeck))
+    #
+    # g.add((JKeck, RDF.type, FOAF.Person))
+    # g.add((JKeck, FOAF.name, JKeckName))
+    # g.add((JKeck, FOAF.knows, DJefts))
+    # g.add((JKeck, FOAF.knows, JOrtiz))
+    #
+    # g.add((DJefts, RDF.type, FOAF.Person))
+    # g.add((DJefts, FOAF.name, DJeftsName))
+    # g.add((DJefts, FOAF.knows, JKeck))
+    # g.add((DJefts, FOAF.knows, JOrtiz))
+    #
+    # g.add((JKeck, siocNamespace.likes, demonSlayer))
+    # g.add((demonSlayer, FOAF.name, DSname))
+    #
+    # # print(g.serialize(format="turtle").decode("utf-8"))
+    #
+    # # print("--- printing raw triples ---")
+    # # for s, p, o in g:
+    # #    print((s, p, o))
+    #
+    # # print all the data in the Notation3 format
+    # print("--- printing mboxes ---")
+    # print(g.serialize(format = 'n3').decode("utf-8"))
     
-    JKeck = URIRef('https://www.facebook.com/john.keck.125')
-    DJefts = URIRef('https://www.facebook.com/david.jefts')
-    demonSlayer = URIRef('https://www.imdb.com/title/tt9335498/')
-    JOrtiz = URIRef('https://www.facebook.com/juan.ortizcouder')
-    siocNamespace = Namespace('http://rdfs.org/sioc/ns#')
-    
-    JKeckName = Literal('John W Keck')
-    DJeftsName = Literal('David Jefts')
-    JOrtizName = Literal("Juan Ortiz")
-    DSname = Literal('Demon Slayer')
-    age = Literal(56)
-    
-    g.add((JOrtiz, RDF.type, FOAF.Person))
-    g.add((JOrtiz, FOAF.name, JOrtizName))
-    g.add((JOrtiz, FOAF.knows, DJefts))
-    g.add((JOrtiz, FOAF.knows, JKeck))
-    
-    g.add((JKeck, RDF.type, FOAF.Person))
-    g.add((JKeck, FOAF.name, JKeckName))
-    g.add((JKeck, FOAF.knows, DJefts))
-    g.add((JKeck, FOAF.knows, JOrtiz))
-    
-    g.add((DJefts, RDF.type, FOAF.Person))
-    g.add((DJefts, FOAF.name, DJeftsName))
-    g.add((DJefts, FOAF.knows, JKeck))
-    g.add((DJefts, FOAF.knows, JOrtiz))
-    
-    g.add((JKeck, siocNamespace.likes, demonSlayer))
-    g.add((demonSlayer, FOAF.name, DSname))
-    
-    # print(g.serialize(format="turtle").decode("utf-8"))
-    
-    # print("--- printing raw triples ---")
-    # for s, p, o in g:
-    #    print((s, p, o))
-    
-    # print all the data in the Notation3 format
-    print("--- printing mboxes ---")
-    print(g.serialize(format = 'n3').decode("utf-8"))
+    rdf_term = geo_search('detroit', 'michigan')
+    print(rdf_term)
