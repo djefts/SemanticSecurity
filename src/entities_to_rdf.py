@@ -8,10 +8,11 @@ email:      TimElvResearch@gmail.com
 password:   keckW2323#
 """
 
+# In[14]:
+import json
 
 import rdflib
-from rdflib import Graph, RDF, URIRef, Literal, BNode
-from rdflib.namespace import FOAF
+from rdflib import Graph, RDF, URIRef, Literal
 from rdflib import Namespace
 from rdflib.namespace import DCTERMS, SKOS, PROV, PROF
 import geonames.adapters.search
@@ -33,54 +34,104 @@ def geo_search(city_name, state_name):
         return geonames.compat.make_unicode("[{0}]: [{1}]").format(id_, name)
 
 
-def init_social_media(k_graph, homepages):
-    sites_uris = {}
-    for social_media in homepages:
+class SocialSemanticWeb(Graph):
+    # URL is at [0] and the graph URI is at [1]
+    __socmed_sites = {'facebook': ['https://facebook.com/', None],
+                      'instagram': ['https://instagram.com/', None],
+                      }
+    
+    # establish the namespaces -- A.K.A import the Ontologies
+    SSO = Namespace('http://david.jefts/sso/')
+    FOAF = Namespace('http://xmlns.com/foaf/0.1/')
+    SIOC = Namespace('http://rdfs.org/sioc/ns#')
+    EDU = Namespace('https://schema.org/EducationalOccupationalCredential')
+    
+    def __init__(self, user, fb_information):
+        super(SocialSemanticWeb, self).__init__()
+        self.bind('sso', self.SSO)
+        self.bind('foaf', self.FOAF)
+        self.bind('sioc', self.SIOC)
+        self.namespace_manager = self.namespace_manager
+        
+        # add social medias to graph
+        for site in self.__socmed_sites:
+            self.__socmed_sites[site][1] = self.social_service_to_rdf(self.__socmed_sites[site][0])
+            
+        # user node instantiation
+        self.user_uri = URIRef(self.SSO + user.name.replace(' ', '-'))
+        print(self.user_uri)  # = rdflib.term.URIRef(u'http://david.jefts/sso/John-Keck')
+        self.add((self.user_uri, RDF.type, self.FOAF.Person))
+        
+        # user accounts initialization
+        # Facebook Account:
+        self.online_account_to_rdf(self.user_uri, fb_information['permalink'],
+                                   user.fb_username, self.__socmed_sites['facebook'][1])
+    
+    def social_service_to_rdf(self, social_media):
         site_uri = URIRef(social_media)
-        k_graph.add((site_uri, RDF.type, FOAF.Document))
-        sites_uris[social_media] = site_uri
-    return sites_uris
-
-
-def get_namespaces(k_graph):
-    namespaces = {}
-    for prefix, namespace in k_graph.namespace_manager.namespaces():
-        namespaces[prefix] = namespace
-    return namespaces
-
-
-def add_online_account(k_graph, user_uri, user_homepage, account_username, service_uri):
-    account_uri = URIRef(user_homepage)
-    k_graph.add((account_uri, RDF.type, FOAF.OnlineAccount))
-    k_graph.add((account_uri, FOAF.accountName, Literal(account_username)))
-    k_graph.add((account_uri, FOAF.accountServiceHomepage, service_uri))
-    k_graph.add((user_uri, FOAF.account, account_uri))
-    return account_uri
-
-
-def add_online_friend(k_graph, user_uri, friend_uri, friend_name, account_link, friend_username, service_uri):
-    # TODO: ensure friend doesn't exist in graph already
-    # user node instantiation
-    k_graph.add((friend_uri, RDF.type, FOAF.Person))
+        self.add((site_uri, RDF.type, self.FOAF.Document))
+        return site_uri
     
-    # Friend's FB Account:
-    add_online_account(k_graph, friend_uri, account_link, friend_username, service_uri)
+    def online_account_to_rdf(self, user_uri, user_homepage, account_username, service_uri):
+        account_uri = URIRef(user_homepage)
+        self.add((account_uri, RDF.type, self.FOAF.OnlineAccount))
+        self.add((account_uri, self.FOAF.accountName, Literal(account_username)))
+        self.add((account_uri, self.FOAF.accountServiceHomepage, service_uri))
+        self.add((user_uri, self.FOAF.account, account_uri))
+        return account_uri
     
-    # connect friend to user
-    k_graph.add((friend_uri, RDF.type, FOAF.Person))
-    k_graph.add((friend_uri, FOAF.name, Literal(friend_name)))
-    k_graph.add((user_uri, FOAF.knows, friend_uri))
-    k_graph.add((friend_uri, FOAF.knows, user_uri))
-    return friend_uri
-
-
-def add_diploma(k_graph, degree, school):
-    degree_uri = URIRef(degree + ' - ' + school)
-    school_uri = URIRef(school)
-    k_graph.add((degree_uri, RDF.type, EDU))
-    k_graph.add((school_uri, RDF.type,))
-    k_graph.add((degree_uri, EDU.recognizedBy, school_uri))
-    k_graph.add((user_fb_uri, FOAF.hasCredential,))
+    def online_friend_to_rdf(self, user_uri, friend_uri, friend_name, account_link, friend_username, service_uri):
+        # TODO: ensure friend doesn't exist in graph already
+        # user node instantiation
+        self.add((friend_uri, RDF.type, self.FOAF.Person))
+        
+        # Friend's FB Account:
+        self.online_account_to_rdf(friend_uri, account_link, friend_username, service_uri)
+        
+        # connect friend to user
+        self.add((friend_uri, RDF.type, self.FOAF.Person))
+        self.add((friend_uri, self.FOAF.name, Literal(friend_name)))
+        self.add((user_uri, self.FOAF.knows, friend_uri))
+        self.add((friend_uri, self.FOAF.knows, user_uri))
+        return friend_uri
+    
+    def facebook_friend_to_rdf(self, user_uri, friend_uri, friend_name, account_link, friend_username):
+        return self.online_friend_to_rdf(user_uri, friend_uri, friend_name, account_link, friend_username,
+                                         self.__socmed_sites['facebook'][1])
+    
+    def diploma_to_rdf(self, degree, school):
+        degree_uri = URIRef(degree + ' - ' + school)
+        school_uri = URIRef(school)
+        self.add((degree_uri, RDF.type, self.EDU))
+        self.add((school_uri, RDF.type,))
+        self.add((degree_uri, self.EDU.recognizedBy, school_uri))
+        self.add((user_fb_uri, self.FOAF.hasCredential,))
+    
+    def get_namespaces(self):
+        namespaces = {}
+        for prefix, namespace in self.namespace_manager.namespaces():
+            namespaces[prefix] = namespace
+        return namespaces
+    
+    def print_namespaces(self):
+        return json.dumps(self.get_namespaces(), indent = 2)
+    
+    def save(self):
+        """
+        Saves the graph to "SemanticSecurity/src/graph.ttl"
+        """
+        self.serialize(destination = "graph.ttl", format = 'turtle', encoding = 'utf-8')
+    
+    def __str__(self):
+        """
+        Serializes the graph using RDF Turtle Format
+        :return: string representation of the knowledge graph
+        """
+        out = "--- Knowledge Graph ---\n"
+        # Format support can be extended with plugins,
+        #    but "xml", "n3", "turtle", "nt", "pretty-xml", "trix", "trig" and "nquads" are built in."""
+        out += self.serialize(format = 'turtle', encoding = 'utf-8').decode("utf-8")
+        return out
 
 
 if __name__ == "__main__":
