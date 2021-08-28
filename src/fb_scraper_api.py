@@ -154,7 +154,7 @@ def get_friends(driver, friends_link):
             # the first check limits search to just text elements
             # the second check removes those that are not names
             if link.text not in invalid_names:
-                if link.text not in friends and 'mutual friends' not in link.text:
+                if link.text not in friends and 'mutual friend' not in link.text:
                     friend_name = link.text
                     # print((friend_username, friend_link))
                     friends.append((friend_name, friend_link))
