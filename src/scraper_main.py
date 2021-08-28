@@ -4,6 +4,8 @@ Running Experiment on Facebook Account John Keck
 Username: TimElvResearch@gmail.com
 Password: keckW2323#
 """
+
+import calendar
 from fb_scraper_api import *
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from time import sleep
