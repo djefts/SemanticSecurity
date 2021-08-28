@@ -4,8 +4,8 @@ Running Experiment on Facebook Account John Keck
 Username: TimElvResearch@gmail.com
 Password: keckW2323#
 """
-
 import calendar
+
 from fb_scraper_api import *
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from time import sleep
@@ -78,6 +78,7 @@ def fb_scraper_main(fb_user_information):
     password = user.fb_password = fb_user_information['password']
     username = user.fb_username = fb_user_information['username']
     permalink = 'https://facebook.com/' + user.fb_username
+    print(permalink, fb_user_information['permalink'])
     try:
         assert permalink == fb_user_information['permalink']
     except AssertionError:

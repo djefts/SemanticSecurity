@@ -4,6 +4,11 @@
 
 <https://instagram.com/> a foaf:Document .
 
+sso:1-mutual-friend a foaf:Person ;
+    foaf:account <https://www.facebook.com/profile.php?id=100008155443906&sk=friends_mutual> ;
+    foaf:knows sso:John-Keck ;
+    foaf:name "1 mutual friend" .
+
 sso:David-Jefts a foaf:Person ;
     foaf:account <https://www.facebook.com/david.jefts> ;
     foaf:knows sso:John-Keck ;
@@ -40,6 +45,10 @@ sso:Tim-Elvira a foaf:Person ;
     foaf:accountName "profile.php?id=100008155443906" ;
     foaf:accountServiceHomepage <https://facebook.com/> .
 
+<https://www.facebook.com/profile.php?id=100008155443906&sk=friends_mutual> a foaf:OnlineAccount ;
+    foaf:accountName "profile.php?id=100008155443906&sk=friends_mutual" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
 <https://www.facebook.com/tim.elvira> a foaf:OnlineAccount ;
     foaf:accountName "tim.elvira" ;
     foaf:accountServiceHomepage <https://facebook.com/> .
@@ -49,7 +58,8 @@ sso:John-Keck a foaf:Person ;
     foaf:age 50 ;
     foaf:birthday "09-23" ;
     foaf:gender "male" ;
-    foaf:knows sso:David-Jefts,
+    foaf:knows sso:1-mutual-friend,
+        sso:David-Jefts,
         sso:Juan-Ortiz-Couder,
         sso:Mark-Frees,
         sso:Tim-Elvira ;
