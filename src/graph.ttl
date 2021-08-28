@@ -14,6 +14,11 @@ sso:Juan-Ortiz-Couder a foaf:Person ;
     foaf:knows sso:John-Keck ;
     foaf:name "Juan Ortiz Couder" .
 
+sso:Mark-Frees a foaf:Person ;
+    foaf:account <https://www.facebook.com/profile.php?id=100008155443906> ;
+    foaf:knows sso:John-Keck ;
+    foaf:name "Mark Frees" .
+
 sso:Tim-Elvira a foaf:Person ;
     foaf:account <https://www.facebook.com/tim.elvira> ;
     foaf:knows sso:John-Keck ;
@@ -31,6 +36,10 @@ sso:Tim-Elvira a foaf:Person ;
     foaf:accountName "juan.ortizcouder" ;
     foaf:accountServiceHomepage <https://facebook.com/> .
 
+<https://www.facebook.com/profile.php?id=100008155443906> a foaf:OnlineAccount ;
+    foaf:accountName "profile.php?id=100008155443906" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
 <https://www.facebook.com/tim.elvira> a foaf:OnlineAccount ;
     foaf:accountName "tim.elvira" ;
     foaf:accountServiceHomepage <https://facebook.com/> .
@@ -42,7 +51,9 @@ sso:John-Keck a foaf:Person ;
     foaf:gender "male" ;
     foaf:knows sso:David-Jefts,
         sso:Juan-Ortiz-Couder,
-        sso:Tim-Elvira .
+        sso:Mark-Frees,
+        sso:Tim-Elvira ;
+    foaf:name "John Keck" .
 
 <https://facebook.com/> a foaf:Document .
 

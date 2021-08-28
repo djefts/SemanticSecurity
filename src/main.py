@@ -57,6 +57,7 @@ if __name__ == "__main__":
                                        socmed_nodes[socmed_sites['facebook']])
     
     # TODO Add rest of basic user information
+    knowledge_graph.add((user_uri, FOAF.name, Literal(user.name)))
     knowledge_graph.add((user_uri, FOAF.gender, Literal(user.gender.lower())))  # FOAF docs specify lowercase
     knowledge_graph.add((user_uri, FOAF.birthday, Literal(user.birthday[0:5])))  # birthday = 'MM-DD-YYYY'
     today = date.today()
