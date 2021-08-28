@@ -11,7 +11,6 @@ password:   keckW2323#
 import json
 import datetime
 from datetime import date
-
 import geonames.adapters.search
 from rdflib import Graph, RDF, URIRef, Literal
 from rdflib import Namespace
