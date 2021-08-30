@@ -8,14 +8,12 @@ email:      TimElvResearch@gmail.com
 password:   keckW2323#
 """
 
-# In[14]:
 import json
-
-import rdflib
+import datetime
+from datetime import date
+import geonames.adapters.search
 from rdflib import Graph, RDF, URIRef, Literal
 from rdflib import Namespace
-from rdflib.namespace import DCTERMS, SKOS, PROV, PROF
-import geonames.adapters.search
 
 
 def geo_search(city_name, state_name):
@@ -61,6 +59,15 @@ class SocialSemanticWeb(Graph):
         self.user_uri = URIRef(self.SSO + user.name.replace(' ', '-'))
         print(self.user_uri)  # = rdflib.term.URIRef(u'http://david.jefts/sso/John-Keck')
         self.add((self.user_uri, RDF.type, self.FOAF.Person))
+        
+        # user's basic info
+        self.add((self.user_uri, self.FOAF.name, Literal(user.name)))
+        self.add((self.user_uri, self.FOAF.gender, Literal(user.gender.lower())))  # FOAF docs specify lowercase
+        self.add((self.user_uri, self.FOAF.birthday, Literal(user.birthday[0:5])))  # birthday = 'MM-DD-YYYY'
+        today = date.today()
+        born = datetime.datetime.strptime(user.birthday, '%m-%d-%Y')
+        age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+        self.add((self.user_uri, self.FOAF.age, Literal(age)))
         
         # user accounts initialization
         # Facebook Account:

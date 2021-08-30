@@ -4,6 +4,8 @@ Running Experiment on Facebook Account John Keck
 Username: TimElvResearch@gmail.com
 Password: keckW2323#
 """
+
+import calendar
 from fb_scraper_api import *
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from time import sleep
@@ -19,6 +21,8 @@ class User:
     def __init__(self, name):
         self.name = str(name)
         self.pronunciation = ''
+        self.gender = 'Apache Attack Helicopter'
+        self.birthday = '01-01'  # MM-DD-YYYY
         self.lives_in = ''
         self.hometown = ''
         self.hobbies = []  # list of nouns
@@ -34,10 +38,23 @@ class User:
     
     def set_information(self, information):
         self.pronunciation = information['pronunciation']
+        self.gender = information['gender']
+        self.birthday = self.parse_birthday(information['birthday'], information['birthyear'])
         self.lives_in = information['lives_in']
         self.hometown = information['hometown']
         self.hobbies = information['hobbies']
         self.friends = information['friends']
+    
+    def parse_birthday(self, birthday_str, year_str):
+        """
+        Converts birthday string form "Month_Name 00" to "00-00"
+        :param birthday_str: string in the form "Month_Name 00"
+        :return: string in the form "MM-DD"
+        """
+        months_dict = {month: index for index, month in enumerate(calendar.month_name) if month}  # 'August': 9
+        month, day = birthday_str.split(' ')
+        month_num = str(months_dict[month]).zfill(2)  # left-pad the string with 0's if necessary
+        return str(month_num) + '-' + day.zfill(2) + '-' + str(year_str)
     
     def __str__(self):
         string = ("{} ({}) is from '{}', "

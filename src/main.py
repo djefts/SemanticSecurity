@@ -1,7 +1,3 @@
-import json
-
-import pandas as pd
-
 import scraper_main
 import rdf_main
 import entities_to_rdf
@@ -17,8 +13,8 @@ if __name__ == "__main__":
     online_user = scraper_main.fb_scraper_main(fb_user_information)
     
     # Knowledge Graph
-
     semantic_social_graph = entities_to_rdf.SocialSemanticWeb(online_user, fb_user_information)
+    semantic_social_graph.print_namespaces()
     
     # Add Friends to graph
     for friend in online_user.friends:
@@ -46,3 +42,5 @@ if __name__ == "__main__":
         rdf_main.print_analysis_to_console(posList, entList)
     
     # TODO Add rest of basic user information
+    
+    semantic_social_graph.save()
