@@ -6,9 +6,9 @@
 Authors:
 - Omar Ochoa
 - [David Jefts](https://www.github.com/elkshadow5)
+- [Juan Ortiz Couder](https://www.github.com/ortizcoj)
 - [Timothy Elvira](https://github.com/A-J-S97)
 - [Tayler King](https://www.github.com/PikaChuBolt)
-- [Juan Ortiz Couder](https://www.github.com/ortizcoj)
 - [Mark Frees](https://github.com/SHOTOVERICE)
 
 ***
