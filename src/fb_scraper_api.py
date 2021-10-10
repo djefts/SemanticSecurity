@@ -222,17 +222,17 @@ def get_posts(driver, permalink):
         post_text = search_css_elements(driver, """div[id^="jsc_c"]:not(div[role="button"])""", post)
         print_elements(post_text)
         try:
-            post_text = post_text[0]
-            if post_text.text != '':
+            post_text = post_text[0].get_attribute('textContent')
+            if post_text != '':
                 # only add non-empty text
-                raw_posts.append(post_text.text)
+                raw_posts.append(post_text)
             else:
                 # scroll down a little and retry
                 scroll_page_down(driver)
                 post_text = search_css_elements(driver, """div[id^="jsc_c"]:not(div[role="button"])""", post)
-                post_text = post_text[0]
-                if post_text.text != '':
-                    raw_posts.append(post_text.text)
+                post_text = post_text[0].get_attribute('textContent')
+                if post_text != '':
+                    raw_posts.append(post_text)
         except IndexError as e:
             # search returned nothing
             # not sure why. requires more investigation
@@ -319,8 +319,8 @@ def print_elements(elements):
 
 def print_element(element):
     try:
-        print("{} ||| '{}'".format(element.get_attribute('innerHTML'), element.text.replace('\n', ' ')))
-        print("\t{} ||| '{}'".format(element.get_attribute('HTML'), element.text.replace('\n', ' ')))
+        # print("{} ||| '{}'".format(element.get_attribute('outerHTML'), element.text.replace('\n', ' ')))
+        print("{} ||| '{}'\n".format(element.get_attribute('innerHTML'), element.text.replace('\n', ' ')))
     except StaleElementReferenceException:
         # element no longer exists
         pass
