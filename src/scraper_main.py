@@ -71,43 +71,44 @@ class User:
         return string
 
 
-def fb_scraper_main(fb_user_information):
+def fb_scraper_main(fb_user_information, testing = False):
     name = fb_user_information['name']
     user = User(name)
     email = user.fb_email = fb_user_information['email']
     password = user.fb_password = fb_user_information['password']
     username = user.fb_username = fb_user_information['username']
     permalink = 'https://facebook.com/' + user.fb_username
-    print(permalink, fb_user_information['permalink'])
     try:
+        # just make sure the user links are standardized. caused some random bugs
         assert permalink == fb_user_information['permalink']
     except AssertionError:
         permalink = 'https://www.facebook.com/' + user.fb_username
         assert permalink == fb_user_information['permalink']
     
-    posts = []
     try:
         firefox, wait = get_driver()
-        
+    
         friends_permalink = permalink + '/friends'
-        
+    
         facebook_login(firefox, wait, email, password, name, username, permalink)
-        
+    
         print("Cleared popup:", check_clear_popups(firefox, wait))
-        
-        # collect basic user information from page
-        user_info = get_user_information(firefox, permalink, friends_permalink)
-        user.set_information(user_info)
-        
+    
+        if not testing:
+            # collect basic user information from page
+            user_info = get_user_information(firefox, permalink, friends_permalink)
+            user.set_information(user_info)
+    
         # collect facebook posts text
         user.posts = get_posts(firefox, permalink)
         print("\n\nPOSTS:")
-        print('\n'.join(posts))
-        
+        print('\n\n'.join(user.posts))
+    
         print("\n\n" + str(user))
     finally:
         # posts-run cleanup
         sleep(5)
+        firefox.close()
         firefox.quit()
     
     return user
@@ -124,4 +125,5 @@ if __name__ == '__main__':
                       'name': 'David Jefts',
                       'username': 'david.jefts',
                       'permalink': 'https://www.facebook.com/david.jefts'}
-    fb_scraper_main(john_fb_login)
+    test = fb_scraper_main(john_fb_login, testing = True)
+    print(test.fb_posts)

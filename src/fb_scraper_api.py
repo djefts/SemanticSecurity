@@ -5,7 +5,7 @@ import random
 import regex
 
 from selenium import webdriver
-from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException, WebDriverException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -14,6 +14,12 @@ from selenium.webdriver.support.wait import WebDriverWait
 import os
 from time import sleep
 from dateutil import parser
+
+
+class Post:
+    text = ""
+    comments = []
+    creator = ""
 
 
 def get_name(mystery_object):
@@ -188,6 +194,7 @@ def get_hobbies(driver):
         try:
             hobby = element.text.replace('\n', ' ')
             # I hope this never breaks in the future with later Unicode emoji updates
+            # this regex uses the emoji unicodes to look for any characters within unicode range
             count = len(regex.findall('[😀-🙏🌀-🗿🚀-🛿☀-➿︀-︀️]', hobby))
             if count > 0:
                 hobby = hobby.split(' ', 1)[1]
@@ -203,14 +210,42 @@ def get_hobbies(driver):
 def get_posts(driver, permalink):
     driver.get(permalink)
     scroll_down(driver)
-    post_elements = search_css_elements(driver, """div[class="kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x c1et5uql"]""")
+    scroll_page_up(driver)
+    
+    post_elements = driver.find_element_by_css_selector("""div[data-pagelet="ProfileTimeline"]""")
+    post_boxes = search_css_elements(driver, """div[role="article"]""", post_elements)
     # print_elements(post_elements)
     
-    posts_text = []
-    for element in post_elements:
-        if element.text != '':
-            posts_text.append(element.text)
-    return posts_text
+    raw_posts = []
+    for post in post_boxes:
+        # gather posts information
+        post_text = search_css_elements(driver, """div[id^="jsc_c"]:not(div[role="button"])""", post)
+        print_elements(post_text)
+        try:
+            post_text = post_text[0]
+            if post_text.text != '':
+                # only add non-empty text
+                raw_posts.append(post_text.text)
+            else:
+                # scroll down a little and retry
+                scroll_page_down(driver)
+                post_text = search_css_elements(driver, """div[id^="jsc_c"]:not(div[role="button"])""", post)
+                post_text = post_text[0]
+                if post_text.text != '':
+                    raw_posts.append(post_text.text)
+        except IndexError as e:
+            # search returned nothing
+            # not sure why. requires more investigation
+            print('ERROR:\t', post_text)
+            continue
+        """div class='kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x c1et5uql'"""
+        
+        # comments information
+        # comments = search_css_elements(driver, """div[aria-label^="Comment by"]""")
+        # comment_text = search_css_elements(driver, """div[dir="auto"]""", comments)
+        # print_elements(comment_text)
+    # rof
+    return raw_posts
 
 
 def get_driver():
@@ -248,7 +283,11 @@ def facebook_login(driver, wait, email, password, name, username, permalink):
     :return:
     """
     # Log in to Facebook
-    driver.get('https://www.facebook.com/')
+    try:
+        driver.get('https://www.facebook.com/')
+    except WebDriverException as e:
+        # try again just in case
+        driver.get('https://www.facebook.com')
     email_input = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='email']")))
     password_input = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='pass']")))
     
@@ -266,20 +305,36 @@ def facebook_login(driver, wait, email, password, name, username, permalink):
 
 
 def print_elements(elements):
-    for element in elements:
-        try:
-            print("{} ||| '{}'".format(element.get_attribute('innerHTML'), element.text.replace('\n', ' ')))
-        except StaleElementReferenceException:
-            pass
+    try:
+        # got a list of elements
+        for element in elements:
+            print_element(element)
+    except TypeError as e:
+        # got one element
+        if "not iterable" in str(e):
+            print_element(elements)
+        else:
+            raise e
 
+
+def print_element(element):
+    try:
+        print("{} ||| '{}'".format(element.get_attribute('innerHTML'), element.text.replace('\n', ' ')))
+        print("\t{} ||| '{}'".format(element.get_attribute('HTML'), element.text.replace('\n', ' ')))
+    except StaleElementReferenceException:
+        # element no longer exists
+        pass
+    
 
 def get_element_children(element):
     element.find_elements_by_xpath(".//*")
 
 
-def search_css_elements(driver, css_selector):
-    # print("Searching for '{}' elements...".format(css_selector))
-    elements = driver.find_elements_by_css_selector(css_selector)
+def search_css_elements(driver, css_selector, search_from = None):
+    if search_from is not None:
+        elements = search_from.find_elements_by_css_selector(css_selector)
+    else:
+        elements = driver.find_elements_by_css_selector(css_selector)
     return elements
 
 

@@ -30,12 +30,19 @@ def geo_search(city_name, state_name):
     for id_, name in result.get_flat_results():
         # make_unicode() is only used here for Python version-compatibility.
         return geonames.compat.make_unicode("[{0}]: [{1}]").format(id_, name)
+    
+
+class SocialMediaSite:
+    def __init__(self, name, link, uri):
+        self.name = name
+        self.link = link
+        self.uri = uri
 
 
 class SocialSemanticWeb(Graph):
     # URL is at [0] and the graph URI is at [1]
-    __socmed_sites = {'facebook': ['https://facebook.com/', None],
-                      'instagram': ['https://instagram.com/', None],
+    __socmed_sites = {'facebook': SocialMediaSite('facebook', 'https://facebook.com/', None),
+                      'instagram': SocialMediaSite('instagram', 'https://instagram.com/', None)
                       }
     
     # establish the namespaces -- A.K.A import the Ontologies
@@ -53,7 +60,7 @@ class SocialSemanticWeb(Graph):
         
         # add social medias to graph
         for site in self.__socmed_sites:
-            self.__socmed_sites[site][1] = self.social_service_to_rdf(self.__socmed_sites[site][0])
+            self.__socmed_sites[site].uri = self.social_service_to_rdf(self.__socmed_sites[site][0])
         
         # user node instantiation
         self.user_uri = URIRef(self.SSO + user.name.replace(' ', '-'))
@@ -75,12 +82,13 @@ class SocialSemanticWeb(Graph):
                                                  user.fb_username, self.__socmed_sites['facebook'][1])
         
         # initial SIOC information
-        self.add((self.fb_uri, self.SIOC.email, user.fb_email))
+        self.add((self.fb_uri, self.SIOC.email, Literal(user.fb_email)))
         self.add((self.fb_uri, self.SIOC.name, Literal(user.fb_username)))
     
     def social_service_to_rdf(self, social_media):
         site_uri = URIRef(social_media)
         self.add((site_uri, RDF.type, self.FOAF.Document))
+        self.add((site_uri, RDF.type, self.SIOC.Space))
         return site_uri
     
     def online_account_to_rdf(self, user_uri, user_homepage, account_username, service_uri):
@@ -111,7 +119,7 @@ class SocialSemanticWeb(Graph):
     
     def facebook_friend_to_rdf(self, user_uri, friend_uri, friend_name, account_link, friend_username):
         return self.online_friend_to_rdf(user_uri, friend_uri, friend_name, account_link, friend_username,
-                                         self.__socmed_sites['facebook'][1])
+                                         self.__socmed_sites['facebook'].uri)
     
     def diploma_to_rdf(self, degree, school):
         degree_uri = URIRef(degree + ' - ' + school)
@@ -120,6 +128,10 @@ class SocialSemanticWeb(Graph):
         self.add((school_uri, RDF.type,))
         self.add((degree_uri, self.EDU.recognizedBy, school_uri))
         self.add((user_fb_uri, self.FOAF.hasCredential,))
+        
+    def post_to_rdf(self, post, site):
+        post_uri = URIRef(post.link)
+        self.add((post_uri, self.SIOC.has_space, self.__socmed_sites[site].uri))
     
     def get_namespaces(self):
         namespaces = {}
