@@ -100,9 +100,9 @@ def fb_scraper_main(fb_user_information, testing = False):
             user.set_information(user_info)
     
         # collect facebook posts text
-        user.posts = get_posts(firefox, permalink)
+        user.fb_posts = get_fb_posts(firefox, permalink)
         print("\n\nPOSTS:")
-        print('\n\n'.join(user.posts))
+        print('\n\n'.join(user.fb_posts))
     
         print("\n\n" + str(user))
     finally:
@@ -127,3 +127,4 @@ if __name__ == '__main__':
                       'permalink': 'https://www.facebook.com/david.jefts'}
     test = fb_scraper_main(john_fb_login, testing = True)
     print(test.fb_posts)
+    print("21 text posts, 5 status updates. I collected {} posts.".format(len(test.fb_posts)))

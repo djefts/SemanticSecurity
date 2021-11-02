@@ -207,8 +207,16 @@ def get_hobbies(driver):
     return hobbies
 
 
-def get_posts(driver, permalink):
+def get_fb_posts(driver, permalink):
+    """
+    Facebook does not store the newline character if the user makes a multi-paragraph post, instead using 1 'div' per
+        paragraph
+    :param driver: Selenium webdriver
+    :param permalink: link to a Facebook timeline/homepage
+    :return: array of strings, each string is its own post
+    """
     driver.get(permalink)
+    # load the entire timeline
     scroll_down(driver)
     scroll_page_up(driver)
     
@@ -217,35 +225,66 @@ def get_posts(driver, permalink):
     # print_elements(post_elements)
     
     raw_posts = []
-    for post in post_boxes:
-        # gather posts information
-        post_text = search_css_elements(driver, """div[id^="jsc_c"]:not(div[role="button"])""", post)
-        print_elements(post_text)
+    for post_box in post_boxes:
+        # element that holds just the post
+        post = search_css_elements(driver, """div[id^="jsc_c"]:not(div[role="button"])""", post_box)
         try:
-            post_text = post_text[0].get_attribute('textContent')
-            if post_text != '':
-                # only add non-empty text
-                raw_posts.append(post_text)
-            else:
-                # scroll down a little and retry
-                scroll_page_down(driver)
-                post_text = search_css_elements(driver, """div[id^="jsc_c"]:not(div[role="button"])""", post)
-                post_text = post_text[0].get_attribute('textContent')
-                if post_text != '':
-                    raw_posts.append(post_text)
+            post = post[0]
+            scroll_to_element(driver, post)
+            print_elements(post)
         except IndexError as e:
             # search returned nothing
-            # not sure why. requires more investigation
-            print('ERROR:\t', post_text)
+            # not sure why. might require more investigation. might not.
             continue
-        """div class='kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x c1et5uql'"""
-        
+        post_text = ''
+    
+        # narrow down the post element
+        post = post.find_elements_by_xpath("""./div/div""")
+        try:
+            post_weird = search_css_elements(driver, """div>div""", post[0])
+        except IndexError:
+            post_weird = []
+        if len(post_weird) < 1:
+            # normal post. go through the (possible) paragraphs and easily add to the post string
+            post_text = get_fb_text_post(post)
+            print('POST::', post_text)
+        else:
+            print("\n\n-----------------------------\nGREAT SCOTT")
+            # it's a weird post. parses differently
+            pieces = post_weird[0].find_elements_by_xpath(""".//div""")
+            for piece in pieces:
+                try:
+                    if piece.text is not None and piece.text != '':
+                        print_element(piece)
+                except StaleElementReferenceException:
+                    continue
+            print('')
+    
+        if post_text != '':
+            # only add non-empty text
+            raw_posts.append(post_text)
+    
         # comments information
         # comments = search_css_elements(driver, """div[aria-label^="Comment by"]""")
         # comment_text = search_css_elements(driver, """div[dir="auto"]""", comments)
         # print_elements(comment_text)
     # rof
     return raw_posts
+
+
+def get_fb_text_post(post):
+    post_text = ""
+    for paragraph in post:
+        print('\t', end = '')
+        print_element(paragraph)
+        try:
+            paragraph_text = paragraph.get_attribute('textContent')
+            if paragraph_text != '':
+                # add the new line character back in
+                post_text += paragraph_text + '\n'
+        except StaleElementReferenceException:
+            continue
+    return post_text.rstrip('\n')  # right strip any trailing newline characters
 
 
 def get_driver():
@@ -319,8 +358,8 @@ def print_elements(elements):
 
 def print_element(element):
     try:
-        # print("{} ||| '{}'".format(element.get_attribute('outerHTML'), element.text.replace('\n', ' ')))
-        print("{} ||| '{}'\n".format(element.get_attribute('innerHTML'), element.text.replace('\n', ' ')))
+        print("{} ||| '{}'".format(element.get_attribute('innerHTML'), element.text.replace('\n', ' ')))
+        print("\t{} ||| '{}'".format(element.get_attribute('textContent'), element.text.replace('\n', ' ')))
     except StaleElementReferenceException:
         # element no longer exists
         pass
@@ -331,6 +370,7 @@ def get_element_children(element):
 
 
 def search_css_elements(driver, css_selector, search_from = None):
+    # TODO: refactor this for simplicity
     if search_from is not None:
         elements = search_from.find_elements_by_css_selector(css_selector)
     else:
@@ -353,6 +393,10 @@ def scroll_page_down(driver):
 
 def scroll_page_up(driver):
     driver.execute_script("window.scrollTo(0, 0);")
+    
+
+def scroll_to_element(driver, element):
+    driver.execute_script("arguments[0].scrollIntoView();", element)
 
 
 def scroll_down(driver, scroll_pause_time = 2):
