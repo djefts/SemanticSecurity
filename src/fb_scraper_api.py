@@ -2,6 +2,8 @@
 This file contains all the methods and structures necessary to scrape information from an input Facebook page
 """
 import random
+import re
+
 import regex
 
 from selenium import webdriver
@@ -20,6 +22,16 @@ class Post:
     text = ""
     comments = []
     creator = ""
+    links = []
+    
+    def __init__(self, text):
+        self.text = text
+    
+    def __str__(self):
+        return self.text
+    
+    def __repr__(self):
+        return self.__str__()
 
 
 def get_name(mystery_object):
@@ -224,7 +236,7 @@ def get_fb_posts(driver, permalink):
     post_boxes = search_css_elements(driver, """div[role="article"]""", post_elements)
     # print_elements(post_elements)
     
-    raw_posts = []
+    fb_posts = []
     for post_box in post_boxes:
         # element that holds just the post
         post = search_css_elements(driver, """div[id^="jsc_c"]:not(div[role="button"])""", post_box)
@@ -236,7 +248,9 @@ def get_fb_posts(driver, permalink):
             # search returned nothing
             # not sure why. might require more investigation. might not.
             continue
-        post_text = ''
+    
+        post_text = post.get_attribute('textContent')
+        print("INITIAL POSTY ::: ", post_text, end='')
     
         # narrow down the post element
         post = post.find_elements_by_xpath("""./div/div""")
@@ -255,27 +269,33 @@ def get_fb_posts(driver, permalink):
             for piece in pieces:
                 try:
                     if piece.text is not None and piece.text != '':
+                        print("PRINTING WEIRD POST:")
                         print_element(piece)
+                        post_text = piece.text
+                        # need to exclude all post texts similar to `0:00 / 0:04`
+                        # these are video posts
+                        if re.match("[0-9]:[0-9][0-9] / [0-9]:[0-9][0-9]", post_text):
+                            post_text = ''
+                        print('WEIRD POST::', post_text)
                 except StaleElementReferenceException:
                     continue
-            print('')
     
         if post_text != '':
             # only add non-empty text
-            raw_posts.append(post_text)
+            fb_posts.append(Post(post_text))
     
         # comments information
         # comments = search_css_elements(driver, """div[aria-label^="Comment by"]""")
         # comment_text = search_css_elements(driver, """div[dir="auto"]""", comments)
         # print_elements(comment_text)
     # rof
-    return raw_posts
+    return fb_posts
 
 
 def get_fb_text_post(post):
     post_text = ""
     for paragraph in post:
-        print('\t', end = '')
+        print('\tPARAGRAPH::', end = '')
         print_element(paragraph)
         try:
             paragraph_text = paragraph.get_attribute('textContent')
@@ -363,7 +383,7 @@ def print_element(element):
     except StaleElementReferenceException:
         # element no longer exists
         pass
-    
+
 
 def get_element_children(element):
     element.find_elements_by_xpath(".//*")
@@ -393,7 +413,7 @@ def scroll_page_down(driver):
 
 def scroll_page_up(driver):
     driver.execute_script("window.scrollTo(0, 0);")
-    
+
 
 def scroll_to_element(driver, element):
     driver.execute_script("arguments[0].scrollIntoView();", element)
