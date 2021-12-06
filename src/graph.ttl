@@ -1,8 +1,36 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix sioc: <http://rdfs.org/sioc/ns#> .
 @prefix sso: <http://david.jefts/sso/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://instagram.com/> a foaf:Document .
+
+<https://www.facebook.com/david.jefts> a sioc:UserAccount ;
+    sioc:account_of sso:David-Jefts ;
+    foaf:accountName "david.jefts" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125> a sioc:UserAccount ;
+    sioc:account_of sso:John-Keck ;
+    sioc:email "TimElvResearch@gmail.com" ;
+    sioc:name "john.keck.125" ;
+    foaf:accountName "john.keck.125" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
+<https://www.facebook.com/juan.ortizcouder> a sioc:UserAccount ;
+    sioc:account_of sso:Juan-Ortiz-Couder ;
+    foaf:accountName "juan.ortizcouder" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
+<https://www.facebook.com/profile.php?id=100008155443906> a sioc:UserAccount ;
+    sioc:account_of sso:Mark-Frees ;
+    foaf:accountName "profile.php?id=100008155443906" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
+<https://www.facebook.com/tim.elvira> a sioc:UserAccount ;
+    sioc:account_of sso:Tim-Elvira ;
+    foaf:accountName "tim.elvira" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
 
 sso:David-Jefts a foaf:Person ;
     foaf:account <https://www.facebook.com/david.jefts> ;
@@ -24,27 +52,11 @@ sso:Tim-Elvira a foaf:Person ;
     foaf:knows sso:John-Keck ;
     foaf:name "Tim Elvira" .
 
-<https://www.facebook.com/david.jefts> a foaf:OnlineAccount ;
-    foaf:accountName "david.jefts" ;
-    foaf:accountServiceHomepage <https://facebook.com/> .
-
-<https://www.facebook.com/john.keck.125> a foaf:OnlineAccount ;
-    foaf:accountName "john.keck.125" ;
-    foaf:accountServiceHomepage <https://facebook.com/> .
-
-<https://www.facebook.com/juan.ortizcouder> a foaf:OnlineAccount ;
-    foaf:accountName "juan.ortizcouder" ;
-    foaf:accountServiceHomepage <https://facebook.com/> .
-
-<https://www.facebook.com/profile.php?id=100008155443906> a foaf:OnlineAccount ;
-    foaf:accountName "profile.php?id=100008155443906" ;
-    foaf:accountServiceHomepage <https://facebook.com/> .
-
-<https://www.facebook.com/tim.elvira> a foaf:OnlineAccount ;
-    foaf:accountName "tim.elvira" ;
-    foaf:accountServiceHomepage <https://facebook.com/> .
-
 sso:John-Keck a foaf:Person ;
+    sioc:follows sso:David-Jefts,
+        sso:Juan-Ortiz-Couder,
+        sso:Mark-Frees,
+        sso:Tim-Elvira ;
     foaf:account <https://www.facebook.com/john.keck.125> ;
     foaf:age 50 ;
     foaf:birthday "09-23" ;

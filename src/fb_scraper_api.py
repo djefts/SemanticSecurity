@@ -2,10 +2,12 @@
 This file contains all the methods and structures necessary to scrape information from an input Facebook page
 """
 import random
+import re
+
 import regex
 
 from selenium import webdriver
-from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException, WebDriverException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -14,6 +16,22 @@ from selenium.webdriver.support.wait import WebDriverWait
 import os
 from time import sleep
 from dateutil import parser
+
+
+class Post:
+    text = ""
+    comments = []
+    creator = ""
+    links = []
+    
+    def __init__(self, text):
+        self.text = text
+    
+    def __str__(self):
+        return self.text
+    
+    def __repr__(self):
+        return self.__str__()
 
 
 def get_name(mystery_object):
@@ -188,6 +206,7 @@ def get_hobbies(driver):
         try:
             hobby = element.text.replace('\n', ' ')
             # I hope this never breaks in the future with later Unicode emoji updates
+            # this regex uses the emoji unicodes to look for any characters within unicode range
             count = len(regex.findall('[😀-🙏🌀-🗿🚀-🛿☀-➿︀-︀️]', hobby))
             if count > 0:
                 hobby = hobby.split(' ', 1)[1]
@@ -200,17 +219,92 @@ def get_hobbies(driver):
     return hobbies
 
 
-def get_posts(driver, permalink):
+def get_fb_posts(driver, permalink):
+    """
+    Facebook does not store the newline character if the user makes a multi-paragraph post, instead using 1 'div' per
+        paragraph
+    :param driver: Selenium webdriver
+    :param permalink: link to a Facebook timeline/homepage
+    :return: array of strings, each string is its own post
+    """
     driver.get(permalink)
+    # load the entire timeline
     scroll_down(driver)
-    post_elements = search_css_elements(driver, """div[class="kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x c1et5uql"]""")
+    scroll_page_up(driver)
+    
+    post_elements = driver.find_element_by_css_selector("""div[data-pagelet="ProfileTimeline"]""")
+    post_boxes = search_css_elements(driver, """div[role="article"]""", post_elements)
     # print_elements(post_elements)
     
-    posts_text = []
-    for element in post_elements:
-        if element.text != '':
-            posts_text.append(element.text)
-    return posts_text
+    fb_posts = []
+    for post_box in post_boxes:
+        # element that holds just the post
+        post = search_css_elements(driver, """div[id^="jsc_c"]:not(div[role="button"])""", post_box)
+        try:
+            post = post[0]
+            scroll_to_element(driver, post)
+            print_elements(post)
+        except IndexError as e:
+            # search returned nothing
+            # not sure why. might require more investigation. might not.
+            continue
+    
+        post_text = post.get_attribute('textContent')
+        print("INITIAL POSTY ::: ", post_text, end='')
+    
+        # narrow down the post element
+        post = post.find_elements_by_xpath("""./div/div""")
+        try:
+            post_weird = search_css_elements(driver, """div>div""", post[0])
+        except IndexError:
+            post_weird = []
+        if len(post_weird) < 1:
+            # normal post. go through the (possible) paragraphs and easily add to the post string
+            post_text = get_fb_text_post(post)
+            print('POST::', post_text)
+        else:
+            print("\n\n-----------------------------\nGREAT SCOTT")
+            # it's a weird post. parses differently
+            pieces = post_weird[0].find_elements_by_xpath(""".//div""")
+            for piece in pieces:
+                try:
+                    if piece.text is not None and piece.text != '':
+                        print("PRINTING WEIRD POST:")
+                        print_element(piece)
+                        post_text = piece.text
+                        # need to exclude all post texts similar to `0:00 / 0:04`
+                        # these are video posts
+                        if re.match("[0-9]:[0-9][0-9] / [0-9]:[0-9][0-9]", post_text):
+                            post_text = ''
+                        print('WEIRD POST::', post_text)
+                except StaleElementReferenceException:
+                    continue
+    
+        if post_text != '':
+            # only add non-empty text
+            fb_posts.append(Post(post_text))
+    
+        # comments information
+        # comments = search_css_elements(driver, """div[aria-label^="Comment by"]""")
+        # comment_text = search_css_elements(driver, """div[dir="auto"]""", comments)
+        # print_elements(comment_text)
+    # rof
+    return fb_posts
+
+
+def get_fb_text_post(post):
+    post_text = ""
+    for paragraph in post:
+        print('\tPARAGRAPH::', end = '')
+        print_element(paragraph)
+        try:
+            paragraph_text = paragraph.get_attribute('textContent')
+            if paragraph_text != '':
+                # add the new line character back in
+                post_text += paragraph_text + '\n'
+        except StaleElementReferenceException:
+            continue
+    return post_text.rstrip('\n')  # right strip any trailing newline characters
 
 
 def get_driver():
@@ -248,7 +342,11 @@ def facebook_login(driver, wait, email, password, name, username, permalink):
     :return:
     """
     # Log in to Facebook
-    driver.get('https://www.facebook.com/')
+    try:
+        driver.get('https://www.facebook.com/')
+    except WebDriverException as e:
+        # try again just in case
+        driver.get('https://www.facebook.com')
     email_input = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='email']")))
     password_input = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='pass']")))
     
@@ -266,20 +364,37 @@ def facebook_login(driver, wait, email, password, name, username, permalink):
 
 
 def print_elements(elements):
-    for element in elements:
-        try:
-            print("{} ||| '{}'".format(element.get_attribute('innerHTML'), element.text.replace('\n', ' ')))
-        except StaleElementReferenceException:
-            pass
+    try:
+        # got a list of elements
+        for element in elements:
+            print_element(element)
+    except TypeError as e:
+        # got one element
+        if "not iterable" in str(e):
+            print_element(elements)
+        else:
+            raise e
+
+
+def print_element(element):
+    try:
+        print("{} ||| '{}'".format(element.get_attribute('innerHTML'), element.text.replace('\n', ' ')))
+        print("\t{} ||| '{}'".format(element.get_attribute('textContent'), element.text.replace('\n', ' ')))
+    except StaleElementReferenceException:
+        # element no longer exists
+        pass
 
 
 def get_element_children(element):
     element.find_elements_by_xpath(".//*")
 
 
-def search_css_elements(driver, css_selector):
-    # print("Searching for '{}' elements...".format(css_selector))
-    elements = driver.find_elements_by_css_selector(css_selector)
+def search_css_elements(driver, css_selector, search_from = None):
+    # TODO: refactor this for simplicity
+    if search_from is not None:
+        elements = search_from.find_elements_by_css_selector(css_selector)
+    else:
+        elements = driver.find_elements_by_css_selector(css_selector)
     return elements
 
 
@@ -298,6 +413,10 @@ def scroll_page_down(driver):
 
 def scroll_page_up(driver):
     driver.execute_script("window.scrollTo(0, 0);")
+
+
+def scroll_to_element(driver, element):
+    driver.execute_script("arguments[0].scrollIntoView();", element)
 
 
 def scroll_down(driver, scroll_pause_time = 2):
