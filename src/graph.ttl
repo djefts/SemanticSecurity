@@ -3,11 +3,17 @@
 @prefix sso: <http://david.jefts/sso/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://instagram.com/> a foaf:Document .
+<https://instagram.com/> a sioc:Space,
+        foaf:Document .
 
 <https://www.facebook.com/david.jefts> a sioc:UserAccount ;
     sioc:account_of sso:David-Jefts ;
     foaf:accountName "david.jefts" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
+<https://www.facebook.com/james.larger> a sioc:UserAccount ;
+    sioc:account_of sso:James-Larger ;
+    foaf:accountName "james.larger" ;
     foaf:accountServiceHomepage <https://facebook.com/> .
 
 <https://www.facebook.com/john.keck.125> a sioc:UserAccount ;
@@ -20,6 +26,16 @@
 <https://www.facebook.com/juan.ortizcouder> a sioc:UserAccount ;
     sioc:account_of sso:Juan-Ortiz-Couder ;
     foaf:accountName "juan.ortizcouder" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
+<https://www.facebook.com/kingtaym> a sioc:UserAccount ;
+    sioc:account_of sso:Tayler-King ;
+    foaf:accountName "kingtaym" ;
+    foaf:accountServiceHomepage <https://facebook.com/> .
+
+<https://www.facebook.com/omar.ochoa.148> a sioc:UserAccount ;
+    sioc:account_of sso:Omar-Ochoa ;
+    foaf:accountName "omar.ochoa.148" ;
     foaf:accountServiceHomepage <https://facebook.com/> .
 
 <https://www.facebook.com/profile.php?id=100008155443906> a sioc:UserAccount ;
@@ -37,6 +53,11 @@ sso:David-Jefts a foaf:Person ;
     foaf:knows sso:John-Keck ;
     foaf:name "David Jefts" .
 
+sso:James-Larger a foaf:Person ;
+    foaf:account <https://www.facebook.com/james.larger> ;
+    foaf:knows sso:John-Keck ;
+    foaf:name "James Larger" .
+
 sso:Juan-Ortiz-Couder a foaf:Person ;
     foaf:account <https://www.facebook.com/juan.ortizcouder> ;
     foaf:knows sso:John-Keck ;
@@ -47,6 +68,16 @@ sso:Mark-Frees a foaf:Person ;
     foaf:knows sso:John-Keck ;
     foaf:name "Mark Frees" .
 
+sso:Omar-Ochoa a foaf:Person ;
+    foaf:account <https://www.facebook.com/omar.ochoa.148> ;
+    foaf:knows sso:John-Keck ;
+    foaf:name "Omar Ochoa" .
+
+sso:Tayler-King a foaf:Person ;
+    foaf:account <https://www.facebook.com/kingtaym> ;
+    foaf:knows sso:John-Keck ;
+    foaf:name "Tayler King" .
+
 sso:Tim-Elvira a foaf:Person ;
     foaf:account <https://www.facebook.com/tim.elvira> ;
     foaf:knows sso:John-Keck ;
@@ -54,18 +85,25 @@ sso:Tim-Elvira a foaf:Person ;
 
 sso:John-Keck a foaf:Person ;
     sioc:follows sso:David-Jefts,
+        sso:James-Larger,
         sso:Juan-Ortiz-Couder,
         sso:Mark-Frees,
+        sso:Omar-Ochoa,
+        sso:Tayler-King,
         sso:Tim-Elvira ;
     foaf:account <https://www.facebook.com/john.keck.125> ;
-    foaf:age 50 ;
+    foaf:age 51 ;
     foaf:birthday "09-23" ;
     foaf:gender "male" ;
     foaf:knows sso:David-Jefts,
+        sso:James-Larger,
         sso:Juan-Ortiz-Couder,
         sso:Mark-Frees,
+        sso:Omar-Ochoa,
+        sso:Tayler-King,
         sso:Tim-Elvira ;
     foaf:name "John Keck" .
 
-<https://facebook.com/> a foaf:Document .
+<https://facebook.com/> a sioc:Space,
+        foaf:Document .
 

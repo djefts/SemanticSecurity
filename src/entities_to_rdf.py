@@ -60,7 +60,7 @@ class SocialSemanticWeb(Graph):
         
         # add social medias to graph
         for site in self.__socmed_sites:
-            self.__socmed_sites[site].uri = self.social_service_to_rdf(self.__socmed_sites[site][0])
+            self.__socmed_sites[site].uri = self.social_service_to_rdf(self.__socmed_sites[site].link)
         
         # user node instantiation
         self.user_uri = URIRef(self.SSO + user.name.replace(' ', '-'))
@@ -79,7 +79,7 @@ class SocialSemanticWeb(Graph):
         # user accounts initialization
         # Facebook Account:
         self.fb_uri = self.online_account_to_rdf(self.user_uri, fb_information['permalink'],
-                                                 user.fb_username, self.__socmed_sites['facebook'][1])
+                                                 user.fb_username, self.__socmed_sites['facebook'].uri)
         
         # initial SIOC information
         self.add((self.fb_uri, self.SIOC.email, Literal(user.fb_email)))

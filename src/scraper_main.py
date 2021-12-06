@@ -59,7 +59,7 @@ class User:
     def __str__(self):
         string = ("{} ({}) is from '{}', "
                   "currently lives in '{}', "
-                  "and has [{}] hobbies and [{}] friends. "
+                  "and has {} hobbies and {} friends. "
                   ).format(self.name, self.pronunciation, self.hometown,
                            self.lives_in,
                            len(self.hobbies), len(self.friends))

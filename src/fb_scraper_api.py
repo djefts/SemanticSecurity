@@ -250,7 +250,9 @@ def get_fb_posts(driver, permalink):
             continue
     
         post_text = post.get_attribute('textContent')
-        print("INITIAL POSTY ::: ", post_text, end='')
+        # print("INITIAL POSTY ::: ", post_text, end='')
+        
+        # TODO: get post author
     
         # narrow down the post element
         post = post.find_elements_by_xpath("""./div/div""")
@@ -261,10 +263,10 @@ def get_fb_posts(driver, permalink):
         if len(post_weird) < 1:
             # normal post. go through the (possible) paragraphs and easily add to the post string
             post_text = get_fb_text_post(post)
-            print('POST::', post_text)
+            # print('POST::', post_text)
         else:
-            print("\n\n-----------------------------\nGREAT SCOTT")
             # it's a weird post. parses differently
+            # print("\n\n-----------------------------\nGREAT SCOTT")
             pieces = post_weird[0].find_elements_by_xpath(""".//div""")
             for piece in pieces:
                 try:
@@ -275,15 +277,18 @@ def get_fb_posts(driver, permalink):
                         # need to exclude all post texts similar to `0:00 / 0:04`
                         # these are video posts
                         if re.match("[0-9]:[0-9][0-9] / [0-9]:[0-9][0-9]", post_text):
+                            # print('~Regex match!')
                             post_text = ''
-                        print('WEIRD POST::', post_text)
+                        # print('WEIRD POST::', post_text)
                 except StaleElementReferenceException:
                     continue
-    
+        
+        print(f"POST ::: {post_text}\n")
         if post_text != '':
             # only add non-empty text
             fb_posts.append(Post(post_text))
     
+        # TODO: Get comments
         # comments information
         # comments = search_css_elements(driver, """div[aria-label^="Comment by"]""")
         # comment_text = search_css_elements(driver, """div[dir="auto"]""", comments)
@@ -295,7 +300,7 @@ def get_fb_posts(driver, permalink):
 def get_fb_text_post(post):
     post_text = ""
     for paragraph in post:
-        print('\tPARAGRAPH::', end = '')
+        print('\t', end = '')
         print_element(paragraph)
         try:
             paragraph_text = paragraph.get_attribute('textContent')

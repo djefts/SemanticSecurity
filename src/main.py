@@ -41,8 +41,10 @@ if __name__ == "__main__":
     # NLP/NLTK
     posList = []
     entList = []
-    for post in online_user.posts:
-        posList, entList = rdf_main.analyze_post(post)
+    # loop through Facebook posts
+    for post in online_user.fb_posts:
+        pass
+        # posList, entList = rdf_main.analyze_post(post)
         # rdf_main.print_analysis_to_console(posList, entList)
     
     # TODO Add rest of basic user information

@@ -1,0 +1,23 @@
+scrape the post writer
+
+get comments on posts
+
+find/create hobbies ontology
+
+add degrees to KG
+
+scrape user's:
+    jobs
+    phone number
+    email
+    websites
+    social media links
+    languages
+    religious views
+    political views
+    "Family and Relationships"
+        family members
+        relationship status
+    favorite quote
+    nicknames
+    "Life events" (maybe?)
