@@ -50,10 +50,11 @@ if __name__ == "__main__":
         
         (int_list.extend(rel_list[1]) if rel_list[1] else None)
     
-    # int_list.extend(online_user.hobbies)
-    # print("INTERESTS:", int_list)
-    # for interest in int_list:
-    #     semantic_social_graph.interest_to_rdf(interest)
+    int_list.extend(online_user.hobbies)
+    print("INTERESTS:", int_list)
+    for interest in int_list:
+        interest = interest.replace(' ', '_')
+        semantic_social_graph.interest_to_rdf(interest)
     
     # TODO Relationship Extraction
     

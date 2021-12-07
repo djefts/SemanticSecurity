@@ -235,10 +235,55 @@
     foaf:accountName "tim.elvira" ;
     foaf:accountServiceHomepage <https://facebook.com/> .
 
+<http://david.jefts/sso/-jk> a foaf:Document ;
+    foaf:topic "-jk" .
+
+sso:Arcane a foaf:Document ;
+    foaf:topic "Arcane" .
+
+sso:BEST a foaf:Document ;
+    foaf:topic "BEST" .
+
+sso:Ca a foaf:Document ;
+    foaf:topic "Ca" .
+
+sso:Camping a foaf:Document ;
+    foaf:topic "Camping" .
+
+sso:Come a foaf:Document ;
+    foaf:topic "Come" .
+
+sso:Cooking a foaf:Document ;
+    foaf:topic "Cooking" .
+
 sso:David-Jefts a foaf:Person ;
     foaf:account <https://www.facebook.com/david.jefts> ;
     foaf:knows sso:John-Keck ;
     foaf:name "David Jefts" .
+
+sso:Demon a foaf:Document ;
+    foaf:topic "Demon" .
+
+sso:EVER a foaf:Document ;
+    foaf:topic "EVER" .
+
+sso:Eating a foaf:Document ;
+    foaf:topic "Eating" .
+
+sso:Fishing a foaf:Document ;
+    foaf:topic "Fishing" .
+
+sso:Friends a foaf:Document ;
+    foaf:topic "Friends" .
+
+sso:Golf a foaf:Document ;
+    foaf:topic "Golf" .
+
+sso:Hi a foaf:Document ;
+    foaf:topic "Hi" .
+
+sso:Hiking a foaf:Document ;
+    foaf:topic "Hiking" .
 
 sso:James-Larger a foaf:Person ;
     foaf:account <https://www.facebook.com/james.larger> ;
@@ -250,15 +295,48 @@ sso:Juan-Ortiz-Couder a foaf:Person ;
     foaf:knows sso:John-Keck ;
     foaf:name "Juan Ortiz Couder" .
 
+sso:KIHL a foaf:Document ;
+    foaf:topic "KIHL" .
+
+sso:Kirspy a foaf:Document ;
+    foaf:topic "Kirspy" .
+
+sso:Korea a foaf:Document ;
+    foaf:topic "Korea" .
+
+sso:Kreme a foaf:Document ;
+    foaf:topic "Kreme" .
+
+sso:League a foaf:Document ;
+    foaf:topic "League" .
+
+sso:Legends a foaf:Document ;
+    foaf:topic "Legends" .
+
+sso:Listening_to_Music a foaf:Document ;
+    foaf:topic "Listening_to_Music" .
+
+sso:MOVIE a foaf:Document ;
+    foaf:topic "MOVIE" .
+
 sso:Mark-Frees a foaf:Person ;
     foaf:account <https://www.facebook.com/profile.php?id=100008155443906> ;
     foaf:knows sso:John-Keck ;
     foaf:name "Mark Frees" .
 
+sso:Netflix a foaf:Document ;
+    foaf:topic "Netflix" .
+
 sso:Omar-Ochoa a foaf:Person ;
     foaf:account <https://www.facebook.com/omar.ochoa.148> ;
     foaf:knows sso:John-Keck ;
     foaf:name "Omar Ochoa" .
+
+sso:Reading a foaf:Document ;
+    foaf:topic "Reading" .
+
+sso:Slayer a foaf:Document ;
+    foaf:topic "Slayer" .
 
 sso:Tayler-King a foaf:Person ;
     foaf:account <https://www.facebook.com/kingtaym> ;
@@ -269,6 +347,54 @@ sso:Tim-Elvira a foaf:Person ;
     foaf:account <https://www.facebook.com/tim.elvira> ;
     foaf:knows sso:John-Keck ;
     foaf:name "Tim Elvira" .
+
+sso:Vi a foaf:Document ;
+    foaf:topic "Vi" .
+
+sso:Watched a foaf:Document ;
+    foaf:topic "Watched" .
+
+sso:Watching_Movies a foaf:Document ;
+    foaf:topic "Watching_Movies" .
+
+sso:discuss a foaf:Document ;
+    foaf:topic "discuss" .
+
+sso:donut a foaf:Document ;
+    foaf:topic "donut" .
+
+sso:dozen a foaf:Document ;
+    foaf:topic "dozen" .
+
+sso:hockey a foaf:Document ;
+    foaf:topic "hockey" .
+
+sso:move a foaf:Document ;
+    foaf:topic "move" .
+
+sso:person a foaf:Document ;
+    foaf:topic "person" .
+
+sso:profit a foaf:Document ;
+    foaf:topic "profit" .
+
+sso:research a foaf:Document ;
+    foaf:topic "research" .
+
+sso:software a foaf:Document ;
+    foaf:topic "software" .
+
+sso:stuff a foaf:Document ;
+    foaf:topic "stuff" .
+
+sso:teamVi a foaf:Document ;
+    foaf:topic "teamVi" .
+
+sso:tech a foaf:Document ;
+    foaf:topic "tech" .
+
+sso:yummyformytummy a foaf:Document ;
+    foaf:topic "yummyformytummy" .
 
 sso:John-Keck a foaf:Person ;
     sioc:creator_of <https://www.facebook.com/john.keck.125/posts/100601735451387>,
@@ -309,10 +435,94 @@ sso:John-Keck a foaf:Person ;
         sso:Omar-Ochoa,
         sso:Tayler-King,
         sso:Tim-Elvira ;
+    sioc:likes <http://david.jefts/sso/-jk>,
+        sso:Arcane,
+        sso:BEST,
+        sso:Ca,
+        sso:Camping,
+        sso:Come,
+        sso:Cooking,
+        sso:Demon,
+        sso:EVER,
+        sso:Eating,
+        sso:Fishing,
+        sso:Friends,
+        sso:Golf,
+        sso:Hi,
+        sso:Hiking,
+        sso:KIHL,
+        sso:Kirspy,
+        sso:Korea,
+        sso:Kreme,
+        sso:League,
+        sso:Legends,
+        sso:Listening_to_Music,
+        sso:MOVIE,
+        sso:Netflix,
+        sso:Reading,
+        sso:Slayer,
+        sso:Vi,
+        sso:Watched,
+        sso:Watching_Movies,
+        sso:discuss,
+        sso:donut,
+        sso:dozen,
+        sso:hockey,
+        sso:move,
+        sso:person,
+        sso:profit,
+        sso:research,
+        sso:software,
+        sso:stuff,
+        sso:teamVi,
+        sso:tech,
+        sso:yummyformytummy ;
     foaf:account <https://www.facebook.com/john.keck.125> ;
     foaf:age 51 ;
     foaf:birthday "09-23" ;
     foaf:gender "male" ;
+    foaf:interest <http://david.jefts/sso/-jk>,
+        sso:Arcane,
+        sso:BEST,
+        sso:Ca,
+        sso:Camping,
+        sso:Come,
+        sso:Cooking,
+        sso:Demon,
+        sso:EVER,
+        sso:Eating,
+        sso:Fishing,
+        sso:Friends,
+        sso:Golf,
+        sso:Hi,
+        sso:Hiking,
+        sso:KIHL,
+        sso:Kirspy,
+        sso:Korea,
+        sso:Kreme,
+        sso:League,
+        sso:Legends,
+        sso:Listening_to_Music,
+        sso:MOVIE,
+        sso:Netflix,
+        sso:Reading,
+        sso:Slayer,
+        sso:Vi,
+        sso:Watched,
+        sso:Watching_Movies,
+        sso:discuss,
+        sso:donut,
+        sso:dozen,
+        sso:hockey,
+        sso:move,
+        sso:person,
+        sso:profit,
+        sso:research,
+        sso:software,
+        sso:stuff,
+        sso:teamVi,
+        sso:tech,
+        sso:yummyformytummy ;
     foaf:knows sso:David-Jefts,
         sso:James-Larger,
         sso:Juan-Ortiz-Couder,
@@ -320,6 +530,48 @@ sso:John-Keck a foaf:Person ;
         sso:Omar-Ochoa,
         sso:Tayler-King,
         sso:Tim-Elvira ;
+    foaf:knowsAbout <http://david.jefts/sso/-jk>,
+        sso:Arcane,
+        sso:BEST,
+        sso:Ca,
+        sso:Camping,
+        sso:Come,
+        sso:Cooking,
+        sso:Demon,
+        sso:EVER,
+        sso:Eating,
+        sso:Fishing,
+        sso:Friends,
+        sso:Golf,
+        sso:Hi,
+        sso:Hiking,
+        sso:KIHL,
+        sso:Kirspy,
+        sso:Korea,
+        sso:Kreme,
+        sso:League,
+        sso:Legends,
+        sso:Listening_to_Music,
+        sso:MOVIE,
+        sso:Netflix,
+        sso:Reading,
+        sso:Slayer,
+        sso:Vi,
+        sso:Watched,
+        sso:Watching_Movies,
+        sso:discuss,
+        sso:donut,
+        sso:dozen,
+        sso:hockey,
+        sso:move,
+        sso:person,
+        sso:profit,
+        sso:research,
+        sso:software,
+        sso:stuff,
+        sso:teamVi,
+        sso:tech,
+        sso:yummyformytummy ;
     foaf:name "John Keck" .
 
 <https://facebook.com/> a sioc:Site,
