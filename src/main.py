@@ -1,4 +1,3 @@
-from datetime import datetime
 import scraper_main
 import rdf_main
 import entities_to_rdf
@@ -59,15 +58,3 @@ if __name__ == "__main__":
     # TODO Relationship Extraction
     
     semantic_social_graph.save()
-
-"""
-This project is a software system within the Semantic Web that introduces a novel method to collect information
-available on the internet and converts it into a machine-readable format. As people are continually more active in
-social media, a plethora of information from individual users is released into the internet and, in most cases,
-discoverable by nearly any other user. In this project, I collected a user’s Facebook account information to create
-verified links between the user and their online profiles, then scraped their account for all available data. This
-information is parsed using various Natural Language Processing techniques to extract the machine-relevant
-information. I then developed an Ontology group to describe behavioral, social, physical, and ideological
-relationships and populated its corresponding Knowledge Graph using the parsed information. Because the information
-in a Knowledge Graph is easily accessed by both humans and machines, can have mathematical Graph Theories applied to
-it, and is easily transferable, it can be used in a wide variety of applications."""
