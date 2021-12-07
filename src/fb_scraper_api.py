@@ -23,9 +23,12 @@ class Post:
     comments = []
     creator = ""
     links = []
+    published = ''
     
-    def __init__(self, text):
+    def __init__(self, text, link, date):
         self.text = text
+        self.link = link
+        self.published = date
     
     def __str__(self):
         return self.text
@@ -144,7 +147,7 @@ def get_user_information(driver, user_link, user_friends_link):
     user_info['birthday'] = info_list[birthday]
     user_info['birthyear'] = info_list[birthyear]
     
-    print("\nCollected basic information.")
+    print("\nCollected basic information.\n")
     return user_info
 
 
@@ -238,6 +241,7 @@ def get_fb_posts(driver, permalink):
     
     fb_posts = []
     for post_box in post_boxes:
+        link_box = search_css_elements(driver, """span[id^="jsc_c"]""", post_box)
         # element that holds just the post
         post = search_css_elements(driver, """div[id^="jsc_c"]:not(div[role="button"])""", post_box)
         try:
@@ -248,12 +252,24 @@ def get_fb_posts(driver, permalink):
             # search returned nothing
             # not sure why. might require more investigation. might not.
             continue
-    
+        
         post_text = post.get_attribute('textContent')
         # print("INITIAL POSTY ::: ", post_text, end='')
         
+        link = ''
+        publish_date = ''
+        try:
+            # TODO: speed up this search
+            link_element = search_css_elements(driver, """a[role="link"]""", link_box[0])[0]
+            publish_date = link_element.get_attribute('aria-label')  # December 2 at 2:57 PM
+            link = link_element.get_attribute('href').split('?')[0]
+            print("LINK:", link.split('?')[0])
+            print("DATE:", publish_date)
+        except IndexError as e:
+            pass
+        
         # TODO: get post author
-    
+        
         # narrow down the post element
         post = post.find_elements_by_xpath("""./div/div""")
         try:
@@ -286,8 +302,8 @@ def get_fb_posts(driver, permalink):
         print(f"POST ::: {post_text}\n")
         if post_text != '':
             # only add non-empty text
-            fb_posts.append(Post(post_text))
-    
+            fb_posts.append(Post(post_text, link, publish_date))
+        
         # TODO: Get comments
         # comments information
         # comments = search_css_elements(driver, """div[aria-label^="Comment by"]""")

@@ -1,9 +1,10 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix sioc: <http://rdfs.org/sioc/ns#> .
 @prefix sso: <http://david.jefts/sso/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://instagram.com/> a sioc:Space,
+<https://instagram.com/> a sioc:Site,
         foaf:Document .
 
 <https://www.facebook.com/david.jefts> a sioc:UserAccount ;
@@ -22,6 +23,192 @@
     sioc:name "john.keck.125" ;
     foaf:accountName "john.keck.125" ;
     foaf:accountServiceHomepage <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/100601735451387> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "" ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/100604098784484> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-03-12T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/100604135451147> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-03-12T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/100604315451129> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-03-12T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/100604432117784> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-03-12T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/100604468784447> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-03-12T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/106181898226704> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-03-19T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/151455910365969> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-06-07T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/168230145355212> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "" ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/168230148688545> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "" ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/168231238688436> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "" ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/191671369677756> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-08-02T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/191675486344011> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-08-02T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/192513886260171> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-08-03T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/193018442876382> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-08-04T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/193063422871884> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-08-04T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/194463996065160> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-08-06T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/196656065845953> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-08-09T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/196719875839572> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-08-09T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/221630673348492> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-09-13T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/222937369884489> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-09-15T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/228550262656533> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-09-23T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/233970065447886> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-10-01T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/233972335447659> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-10-01T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/236849481826611> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-10-05T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/247114240800135> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-10-19T00:00:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/266723442172548> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-11-17T12:30:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/266723732172519> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-11-17T12:31:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/270939515084274> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-11-23T23:24:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/274467354731490> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-11-29T12:02:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
+
+<https://www.facebook.com/john.keck.125/posts/276416571203235> a sioc:Post,
+        foaf:Document ;
+    dcterms:created "2021-12-02T14:57:00"^^xsd:dateTime ;
+    sioc:has_creator sso:John-Keck ;
+    sioc:has_space <https://facebook.com/> .
 
 <https://www.facebook.com/juan.ortizcouder> a sioc:UserAccount ;
     sioc:account_of sso:Juan-Ortiz-Couder ;
@@ -84,6 +271,37 @@ sso:Tim-Elvira a foaf:Person ;
     foaf:name "Tim Elvira" .
 
 sso:John-Keck a foaf:Person ;
+    sioc:creator_of <https://www.facebook.com/john.keck.125/posts/100601735451387>,
+        <https://www.facebook.com/john.keck.125/posts/100604098784484>,
+        <https://www.facebook.com/john.keck.125/posts/100604135451147>,
+        <https://www.facebook.com/john.keck.125/posts/100604315451129>,
+        <https://www.facebook.com/john.keck.125/posts/100604432117784>,
+        <https://www.facebook.com/john.keck.125/posts/100604468784447>,
+        <https://www.facebook.com/john.keck.125/posts/106181898226704>,
+        <https://www.facebook.com/john.keck.125/posts/151455910365969>,
+        <https://www.facebook.com/john.keck.125/posts/168230145355212>,
+        <https://www.facebook.com/john.keck.125/posts/168230148688545>,
+        <https://www.facebook.com/john.keck.125/posts/168231238688436>,
+        <https://www.facebook.com/john.keck.125/posts/191671369677756>,
+        <https://www.facebook.com/john.keck.125/posts/191675486344011>,
+        <https://www.facebook.com/john.keck.125/posts/192513886260171>,
+        <https://www.facebook.com/john.keck.125/posts/193018442876382>,
+        <https://www.facebook.com/john.keck.125/posts/193063422871884>,
+        <https://www.facebook.com/john.keck.125/posts/194463996065160>,
+        <https://www.facebook.com/john.keck.125/posts/196656065845953>,
+        <https://www.facebook.com/john.keck.125/posts/196719875839572>,
+        <https://www.facebook.com/john.keck.125/posts/221630673348492>,
+        <https://www.facebook.com/john.keck.125/posts/222937369884489>,
+        <https://www.facebook.com/john.keck.125/posts/228550262656533>,
+        <https://www.facebook.com/john.keck.125/posts/233970065447886>,
+        <https://www.facebook.com/john.keck.125/posts/233972335447659>,
+        <https://www.facebook.com/john.keck.125/posts/236849481826611>,
+        <https://www.facebook.com/john.keck.125/posts/247114240800135>,
+        <https://www.facebook.com/john.keck.125/posts/266723442172548>,
+        <https://www.facebook.com/john.keck.125/posts/266723732172519>,
+        <https://www.facebook.com/john.keck.125/posts/270939515084274>,
+        <https://www.facebook.com/john.keck.125/posts/274467354731490>,
+        <https://www.facebook.com/john.keck.125/posts/276416571203235> ;
     sioc:follows sso:David-Jefts,
         sso:James-Larger,
         sso:Juan-Ortiz-Couder,
@@ -104,6 +322,6 @@ sso:John-Keck a foaf:Person ;
         sso:Tim-Elvira ;
     foaf:name "John Keck" .
 
-<https://facebook.com/> a sioc:Space,
+<https://facebook.com/> a sioc:Site,
         foaf:Document .
 

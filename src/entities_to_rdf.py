@@ -9,7 +9,7 @@ password:   keckW2323#
 """
 
 import json
-import datetime
+from datetime import datetime
 from datetime import date
 import geonames.adapters.search
 from rdflib import Graph, RDF, URIRef, Literal
@@ -30,7 +30,7 @@ def geo_search(city_name, state_name):
     for id_, name in result.get_flat_results():
         # make_unicode() is only used here for Python version-compatibility.
         return geonames.compat.make_unicode("[{0}]: [{1}]").format(id_, name)
-    
+
 
 class SocialMediaSite:
     def __init__(self, name, link, uri):
@@ -41,26 +41,28 @@ class SocialMediaSite:
 
 class SocialSemanticWeb(Graph):
     # URL is at [0] and the graph URI is at [1]
-    __socmed_sites = {'facebook': SocialMediaSite('facebook', 'https://facebook.com/', None),
-                      'instagram': SocialMediaSite('instagram', 'https://instagram.com/', None)
-                      }
+    socmed_sites = {'facebook': SocialMediaSite('facebook', 'https://facebook.com/', None),
+                    'instagram': SocialMediaSite('instagram', 'https://instagram.com/', None)
+                    }
     
     # establish the namespaces -- A.K.A import the Ontologies
     SSO = Namespace('http://david.jefts/sso/')
     FOAF = Namespace('http://xmlns.com/foaf/0.1/')
     SIOC = Namespace('http://rdfs.org/sioc/ns#')
     EDU = Namespace('https://schema.org/EducationalOccupationalCredential')
+    DCTERMS = Namespace('http://purl.org/dc/terms/')
     
     def __init__(self, user, fb_information):
         super(SocialSemanticWeb, self).__init__()
         self.bind('sso', self.SSO)
         self.bind('foaf', self.FOAF)
         self.bind('sioc', self.SIOC)
+        self.bind('dcterms', self.DCTERMS)
         self.namespace_manager = self.namespace_manager
         
         # add social medias to graph
-        for site in self.__socmed_sites:
-            self.__socmed_sites[site].uri = self.social_service_to_rdf(self.__socmed_sites[site].link)
+        for site in self.socmed_sites:
+            self.socmed_sites[site].uri = self.social_service_to_rdf(self.socmed_sites[site].link)
         
         # user node instantiation
         self.user_uri = URIRef(self.SSO + user.name.replace(' ', '-'))
@@ -72,14 +74,14 @@ class SocialSemanticWeb(Graph):
         self.add((self.user_uri, self.FOAF.gender, Literal(user.gender.lower())))  # FOAF docs specify lowercase
         self.add((self.user_uri, self.FOAF.birthday, Literal(user.birthday[0:5])))  # birthday = 'MM-DD-YYYY'
         today = date.today()
-        born = datetime.datetime.strptime(user.birthday, '%m-%d-%Y')
+        born = datetime.strptime(user.birthday, '%m-%d-%Y')
         age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
         self.add((self.user_uri, self.FOAF.age, Literal(age)))
         
         # user accounts initialization
         # Facebook Account:
         self.fb_uri = self.online_account_to_rdf(self.user_uri, fb_information['permalink'],
-                                                 user.fb_username, self.__socmed_sites['facebook'].uri)
+                                                 user.fb_username, self.socmed_sites['facebook'].uri)
         
         # initial SIOC information
         self.add((self.fb_uri, self.SIOC.email, Literal(user.fb_email)))
@@ -88,7 +90,7 @@ class SocialSemanticWeb(Graph):
     def social_service_to_rdf(self, social_media):
         site_uri = URIRef(social_media)
         self.add((site_uri, RDF.type, self.FOAF.Document))
-        self.add((site_uri, RDF.type, self.SIOC.Space))
+        self.add((site_uri, RDF.type, self.SIOC.Site))
         return site_uri
     
     def online_account_to_rdf(self, user_uri, user_homepage, account_username, service_uri):
@@ -119,7 +121,34 @@ class SocialSemanticWeb(Graph):
     
     def facebook_friend_to_rdf(self, user_uri, friend_uri, friend_name, account_link, friend_username):
         return self.online_friend_to_rdf(user_uri, friend_uri, friend_name, account_link, friend_username,
-                                         self.__socmed_sites['facebook'].uri)
+                                         self.socmed_sites['facebook'].uri)
+    
+    def post_to_rdf(self, post, site):
+        post_uri = URIRef(post.link)
+        self.add((post_uri, RDF.type, self.SIOC.Post))
+        self.add((post_uri, RDF.type, self.FOAF.Document))
+        
+        published = ''
+        for fmt in ('%B %d %I:%M %p', '%B %d', '%B %d, %Y'):
+            # December 2 at 2:57 PM --> %B %d %I:%M %p
+            # December 2            --> %B %d
+            # December 5, 2020      --> %B %d, %Y
+            if not post.published:
+                continue
+            if 'at ' in post.published:
+                post.published = post.published.replace('at ', '')
+            try:
+                published = datetime.strptime(post.published, fmt)
+                if published.year == 1900:
+                    # no year in date string
+                    published = published.replace(year = datetime.now().year)
+            except ValueError:
+                pass
+        
+        self.add((post_uri, self.DCTERMS.created, Literal(published)))
+        self.add((post_uri, self.SIOC.has_space, site.uri))
+        self.add((post_uri, self.SIOC.has_creator, self.user_uri))
+        self.add((self.user_uri, self.SIOC.creator_of, post_uri))
     
     def diploma_to_rdf(self, degree, school):
         degree_uri = URIRef(degree + ' - ' + school)
@@ -127,11 +156,15 @@ class SocialSemanticWeb(Graph):
         self.add((degree_uri, RDF.type, self.EDU))
         self.add((school_uri, RDF.type,))
         self.add((degree_uri, self.EDU.recognizedBy, school_uri))
-        self.add((user_fb_uri, self.FOAF.hasCredential,))
-        
-    def post_to_rdf(self, post, site):
-        post_uri = URIRef(post.link)
-        self.add((post_uri, self.SIOC.has_space, self.__socmed_sites[site].uri))
+        self.add((self.user_uri, self.FOAF.hasCredential,))
+    
+    def interest_to_rdf(self, interest):
+        interest_uri = URIRef(self.SSO + interest)
+        self.add((interest_uri, RDF.type, self.FOAF.Document))
+        self.add((interest_uri, self.FOAF.topic, Literal(interest)))
+        self.add((self.user_uri, self.FOAF.interest, interest_uri))
+        self.add((self.user_uri, self.FOAF.knowsAbout, interest_uri))
+        self.add((self.user_uri, self.SIOC.likes, interest_uri))
     
     def get_namespaces(self):
         namespaces = {}
