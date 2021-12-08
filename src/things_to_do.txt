@@ -21,3 +21,7 @@ scrape user's:
     favorite quote
     nicknames
     "Life events" (maybe?)
+
+speed up posts scraping
+
+relationship extraction
