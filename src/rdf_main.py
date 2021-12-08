@@ -114,7 +114,7 @@ def extract_relations(sentence):
         # VBP = Verb, non-3rd person singular present
         # NN = Noun
     interests = []
-    if 'PRP' in tags and 'VBP' in tags and 'NN' in tags:
+    if 'PRP' in tags and 'VBP' in tags and ('NN' in tags or 'NNP'):
         for tag in pos_tags:
             if tag[1] == 'NN' or tag[1] == 'NNP':
                 interests.append(tag[0])

@@ -270,6 +270,9 @@ sso:EVER a foaf:Document ;
 sso:Eating a foaf:Document ;
     foaf:topic "Eating" .
 
+sso:Elvira a foaf:Document ;
+    foaf:topic "Elvira" .
+
 sso:Fishing a foaf:Document ;
     foaf:topic "Fishing" .
 
@@ -342,6 +345,9 @@ sso:Tayler-King a foaf:Person ;
     foaf:account <https://www.facebook.com/kingtaym> ;
     foaf:knows sso:John-Keck ;
     foaf:name "Tayler King" .
+
+sso:Tim a foaf:Document ;
+    foaf:topic "Tim" .
 
 sso:Tim-Elvira a foaf:Person ;
     foaf:account <https://www.facebook.com/tim.elvira> ;
@@ -445,6 +451,7 @@ sso:John-Keck a foaf:Person ;
         sso:Demon,
         sso:EVER,
         sso:Eating,
+        sso:Elvira,
         sso:Fishing,
         sso:Friends,
         sso:Golf,
@@ -461,6 +468,7 @@ sso:John-Keck a foaf:Person ;
         sso:Netflix,
         sso:Reading,
         sso:Slayer,
+        sso:Tim,
         sso:Vi,
         sso:Watched,
         sso:Watching_Movies,
@@ -491,6 +499,7 @@ sso:John-Keck a foaf:Person ;
         sso:Demon,
         sso:EVER,
         sso:Eating,
+        sso:Elvira,
         sso:Fishing,
         sso:Friends,
         sso:Golf,
@@ -507,6 +516,7 @@ sso:John-Keck a foaf:Person ;
         sso:Netflix,
         sso:Reading,
         sso:Slayer,
+        sso:Tim,
         sso:Vi,
         sso:Watched,
         sso:Watching_Movies,
@@ -540,6 +550,7 @@ sso:John-Keck a foaf:Person ;
         sso:Demon,
         sso:EVER,
         sso:Eating,
+        sso:Elvira,
         sso:Fishing,
         sso:Friends,
         sso:Golf,
@@ -556,6 +567,7 @@ sso:John-Keck a foaf:Person ;
         sso:Netflix,
         sso:Reading,
         sso:Slayer,
+        sso:Tim,
         sso:Vi,
         sso:Watched,
         sso:Watching_Movies,
