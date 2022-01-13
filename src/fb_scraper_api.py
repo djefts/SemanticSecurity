@@ -188,14 +188,20 @@ def get_friends(driver, friends_link):
 def get_hobbies(driver):
     # load some of the page
     scroll_page_down(driver)
+    sleep(0.5)
     scroll_page_up(driver)
-    sleep(1)
+    sleep(0.5)
+    scroll_page_down(driver)
+    sleep(0.5)
     try:
         # if there are more than ~7 hobbies then there is a "See All" button
         # find the popup button, scroll it into view, then click on it
-        hobbies_button = search_css_elements(driver, """div[aria-pressed]""")[0]
+        hobbies_button = search_css_elements(driver, """div[role=button]""")[0]
         driver.execute_script("window.scrollTo(0, {});".format(hobbies_button.location['y'] - 100))
-        hobbies_button.click()
+        if hobbies_button.text == "See All":
+            hobbies_button.click()
+        else:
+            raise IndexError
         # there are issues if this doesn't get time to load
         sleep(2)
     except IndexError:

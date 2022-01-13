@@ -51,6 +51,7 @@ class SocialSemanticWeb(Graph):
     SIOC = Namespace('http://rdfs.org/sioc/ns#')
     EDU = Namespace('https://schema.org/EducationalOccupationalCredential')
     DCTERMS = Namespace('http://purl.org/dc/terms/')
+    RDFS = Namespace('http://www.w3.org/2000/01/rdf-schema#')
     
     def __init__(self, user, fb_information):
         super(SocialSemanticWeb, self).__init__()
@@ -58,6 +59,7 @@ class SocialSemanticWeb(Graph):
         self.bind('foaf', self.FOAF)
         self.bind('sioc', self.SIOC)
         self.bind('dcterms', self.DCTERMS)
+        self.bind('rdfs', self.RDFS)
         self.namespace_manager = self.namespace_manager
         
         # add social medias to graph
@@ -148,6 +150,7 @@ class SocialSemanticWeb(Graph):
         self.add((post_uri, self.DCTERMS.created, Literal(published)))
         self.add((post_uri, self.SIOC.has_space, site.uri))
         self.add((post_uri, self.SIOC.has_creator, self.user_uri))
+        self.add((post_uri, self.RDFS.comment, Literal(post.text)))
         self.add((self.user_uri, self.SIOC.creator_of, post_uri))
     
     def diploma_to_rdf(self, degree, school):

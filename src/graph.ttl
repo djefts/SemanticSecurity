@@ -1,5 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix sioc: <http://rdfs.org/sioc/ns#> .
 @prefix sso: <http://david.jefts/sso/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -28,187 +29,221 @@
         foaf:Document ;
     dcterms:created "" ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Born on September 23, 1970" .
 
 <https://www.facebook.com/john.keck.125/posts/100604098784484> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-03-12T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment """I love research and software!
+-jk""" .
 
 <https://www.facebook.com/john.keck.125/posts/100604135451147> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-03-12T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Really cool idea from everyone at Tesla to make this new CyberTruck!!!!11!" .
 
 <https://www.facebook.com/john.keck.125/posts/100604315451129> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-03-12T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Hi Friends, Come follow me if you want to look at cool tech stuff and discuss!!" .
 
 <https://www.facebook.com/john.keck.125/posts/100604432117784> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-03-12T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "My favorite place in the world is Los Angeles!! Loved it in the 90's!" .
 
 <https://www.facebook.com/john.keck.125/posts/100604468784447> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-03-12T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "My Favorite TV show right now is Demon Slayer. #anime" .
 
 <https://www.facebook.com/john.keck.125/posts/106181898226704> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-03-19T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment """Two new friends on Facebook! Happy days!
+-jk""" .
 
 <https://www.facebook.com/john.keck.125/posts/151455910365969> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-06-07T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Had some delicious enchiladas today! Def trying that recipe again!" .
 
 <https://www.facebook.com/john.keck.125/posts/168230145355212> a sioc:Post,
         foaf:Document ;
     dcterms:created "" ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Graduated from Ball State University1999College — BS Interior Design/Marketing" .
 
 <https://www.facebook.com/john.keck.125/posts/168230148688545> a sioc:Post,
         foaf:Document ;
     dcterms:created "" ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Started School at Ball State University1988College — BS Interior Design/Marketing" .
 
 <https://www.facebook.com/john.keck.125/posts/168231238688436> a sioc:Post,
         foaf:Document ;
     dcterms:created "" ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Graduated from Worthington Hooker School1989High school" .
 
 <https://www.facebook.com/john.keck.125/posts/191671369677756> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-08-02T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Can't wait to eat ramen again. I love it so much! #yummyformytummy" .
 
 <https://www.facebook.com/john.keck.125/posts/191675486344011> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-08-02T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Next week is my high school's graduation class reunion. Can't wait to see my friends from Worthington Hooker School again!" .
 
 <https://www.facebook.com/john.keck.125/posts/192513886260171> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-08-03T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "I still can't believe there are people who haven't watched Demon Slayer. BEST. MOVIE. EVER" .
 
 <https://www.facebook.com/john.keck.125/posts/193018442876382> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-08-04T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Don't you ever wonder if your posts are being monitored?" .
 
 <https://www.facebook.com/john.keck.125/posts/193063422871884> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-08-04T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Will I ever be as good as Tim Elvira at League of Legends? I sure hope so" .
 
 <https://www.facebook.com/john.keck.125/posts/194463996065160> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-08-06T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Is there a better book than Holes? No, there isn't. It's just an amazing book. The movie is meh compared to it" .
 
 <https://www.facebook.com/john.keck.125/posts/196656065845953> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-08-09T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "I don't understand how Kirspy Kreme make a profit by giving a free donut to every person who has been vaccinated. I have already gotten more than free dozen because of it" .
 
 <https://www.facebook.com/john.keck.125/posts/196719875839572> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-08-09T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Today I heard a good country song (Tennessee Whiskey) and it made me think of my Texan friend David Jefts" .
 
 <https://www.facebook.com/john.keck.125/posts/221630673348492> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-09-13T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment """Just found my new hobby- 
+Day Trading!!""" .
 
 <https://www.facebook.com/john.keck.125/posts/222937369884489> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-09-15T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Maybe it wasn't a good idea to get into day trading..." .
 
 <https://www.facebook.com/john.keck.125/posts/228550262656533> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-09-23T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Happy  51st, JK!" .
 
 <https://www.facebook.com/john.keck.125/posts/233970065447886> a sioc:Post,
         foaf:Document ;
-    dcterms:created "2021-10-01T00:00:00"^^xsd:dateTime ;
+    dcterms:created "2021-09-30T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Can't believe Tim Elvira doesn't like hugs" .
 
 <https://www.facebook.com/john.keck.125/posts/233972335447659> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-10-01T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "New world has great graphics, Genshin Impact has great graphics. Buuuut, nothing can compare with Assassins Creed's graphics. #ISaidIt" .
 
 <https://www.facebook.com/john.keck.125/posts/236849481826611> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-10-05T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Dulce de leche donuts from Dunkin'" .
 
 <https://www.facebook.com/john.keck.125/posts/247114240800135> a sioc:Post,
         foaf:Document ;
     dcterms:created "2021-10-19T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "NFL is much better than NHL. Go Tampa Cowboys!" .
 
 <https://www.facebook.com/john.keck.125/posts/266723442172548> a sioc:Post,
         foaf:Document ;
-    dcterms:created "2021-11-17T12:30:00"^^xsd:dateTime ;
+    dcterms:created "2021-11-17T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "What's up friends?!? I have been out of social media but I'm back stronger than ever " .
 
 <https://www.facebook.com/john.keck.125/posts/266723732172519> a sioc:Post,
         foaf:Document ;
-    dcterms:created "2021-11-17T12:31:00"^^xsd:dateTime ;
+    dcterms:created "2021-11-17T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Watched Arcane on Netflix, I want to play Vi on League of Legends now... #teamVi" .
 
 <https://www.facebook.com/john.keck.125/posts/270939515084274> a sioc:Post,
         foaf:Document ;
-    dcterms:created "2021-11-23T23:24:00"^^xsd:dateTime ;
+    dcterms:created "2021-11-23T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "What show should I watch next? I was considering watching Locke & Key, Sex Education or another show?" .
 
 <https://www.facebook.com/john.keck.125/posts/274467354731490> a sioc:Post,
         foaf:Document ;
-    dcterms:created "2021-11-29T12:02:00"^^xsd:dateTime ;
+    dcterms:created "2021-11-29T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "Do you guys think Tobey Maguire and Andrew Garfield will show up in the new Spiderman movie?" .
 
 <https://www.facebook.com/john.keck.125/posts/276416571203235> a sioc:Post,
         foaf:Document ;
-    dcterms:created "2021-12-02T14:57:00"^^xsd:dateTime ;
+    dcterms:created "2021-12-02T00:00:00"^^xsd:dateTime ;
     sioc:has_creator sso:John-Keck ;
-    sioc:has_space <https://facebook.com/> .
+    sioc:has_space <https://facebook.com/> ;
+    rdfs:comment "I've decided to get good at hockey and move to Korea to play in the KIHL " .
 
 <https://www.facebook.com/juan.ortizcouder> a sioc:UserAccount ;
     sioc:account_of sso:Juan-Ortiz-Couder ;
@@ -316,9 +351,6 @@ sso:League a foaf:Document ;
 sso:Legends a foaf:Document ;
     foaf:topic "Legends" .
 
-sso:Listening_to_Music a foaf:Document ;
-    foaf:topic "Listening_to_Music" .
-
 sso:MOVIE a foaf:Document ;
     foaf:topic "MOVIE" .
 
@@ -334,9 +366,6 @@ sso:Omar-Ochoa a foaf:Person ;
     foaf:account <https://www.facebook.com/omar.ochoa.148> ;
     foaf:knows sso:John-Keck ;
     foaf:name "Omar Ochoa" .
-
-sso:Reading a foaf:Document ;
-    foaf:topic "Reading" .
 
 sso:Slayer a foaf:Document ;
     foaf:topic "Slayer" .
@@ -359,9 +388,6 @@ sso:Vi a foaf:Document ;
 
 sso:Watched a foaf:Document ;
     foaf:topic "Watched" .
-
-sso:Watching_Movies a foaf:Document ;
-    foaf:topic "Watching_Movies" .
 
 sso:discuss a foaf:Document ;
     foaf:topic "discuss" .
@@ -463,15 +489,12 @@ sso:John-Keck a foaf:Person ;
         sso:Kreme,
         sso:League,
         sso:Legends,
-        sso:Listening_to_Music,
         sso:MOVIE,
         sso:Netflix,
-        sso:Reading,
         sso:Slayer,
         sso:Tim,
         sso:Vi,
         sso:Watched,
-        sso:Watching_Movies,
         sso:discuss,
         sso:donut,
         sso:dozen,
@@ -511,15 +534,12 @@ sso:John-Keck a foaf:Person ;
         sso:Kreme,
         sso:League,
         sso:Legends,
-        sso:Listening_to_Music,
         sso:MOVIE,
         sso:Netflix,
-        sso:Reading,
         sso:Slayer,
         sso:Tim,
         sso:Vi,
         sso:Watched,
-        sso:Watching_Movies,
         sso:discuss,
         sso:donut,
         sso:dozen,
@@ -562,15 +582,12 @@ sso:John-Keck a foaf:Person ;
         sso:Kreme,
         sso:League,
         sso:Legends,
-        sso:Listening_to_Music,
         sso:MOVIE,
         sso:Netflix,
-        sso:Reading,
         sso:Slayer,
         sso:Tim,
         sso:Vi,
         sso:Watched,
-        sso:Watching_Movies,
         sso:discuss,
         sso:donut,
         sso:dozen,
