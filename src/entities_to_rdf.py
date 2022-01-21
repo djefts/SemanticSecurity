@@ -46,15 +46,16 @@ class SocialSemanticWeb(Graph):
                     }
     
     # establish the namespaces -- A.K.A import the Ontologies
-    SSO = Namespace('http://david.jefts/sso/')
+    sso_link = 'http://david.jefts/sso/'
+    SSO = Namespace(sso_link)
     FOAF = Namespace('http://xmlns.com/foaf/0.1/')
     SIOC = Namespace('http://rdfs.org/sioc/ns#')
-    EDU = Namespace('https://schema.org/EducationalOccupationalCredential')
+    EDU = Namespace('https://schema.org/EducationalOccupationalCredential#')
     DCTERMS = Namespace('http://purl.org/dc/terms/')
     RDFS = Namespace('http://www.w3.org/2000/01/rdf-schema#')
     
     def __init__(self, user, fb_information):
-        super(SocialSemanticWeb, self).__init__()
+        super(SocialSemanticWeb, self).__init__(base = self.sso_link)
         self.bind('sso', self.SSO)
         self.bind('foaf', self.FOAF)
         self.bind('sioc', self.SIOC)
@@ -98,10 +99,10 @@ class SocialSemanticWeb(Graph):
     def online_account_to_rdf(self, user_uri, user_homepage, account_username, service_uri):
         account_uri = URIRef(user_homepage)
         # SIOC:UserAccount is a subclass of FOAF:OnlineAccount
-        self.add((account_uri, RDF.type, self.SIOC.UserAccount))
+        self.add((account_uri, RDF.type, self.SIOC.User))
         self.add((account_uri, self.FOAF.accountName, Literal(account_username)))
         self.add((account_uri, self.FOAF.accountServiceHomepage, service_uri))
-        self.add((user_uri, self.FOAF.account, account_uri))
+        self.add((user_uri, self.FOAF.holdsAccount, account_uri))
         self.add((account_uri, self.SIOC.account_of, user_uri))
         return account_uri
     
