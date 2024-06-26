@@ -13,10 +13,14 @@ Authors:
 
 ***
 
+The WIP paper can be found [on Overleaf](https://www.overleaf.com/read/tbcrsyydrrkq#904c5e). Please contact one of the authors to obtain edit access.
+
+***
+
 # Structure:
-- **Research Paper**
-  - All of the TeX files used for the papers published by this project
-  - **Sources**
-    - Downloaded copies of all the sources
 - `.gitignore`
 - `README.md`
+- `src`
+  - `below`
+    - Source files for the Knowledge Aware Application
+  - Source files for the knowledge acquisition and representation
